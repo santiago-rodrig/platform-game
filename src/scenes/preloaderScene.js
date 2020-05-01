@@ -89,7 +89,7 @@ export class PreloaderScene extends Phaser.Scene {
     });
 
     this.load.spritesheet('objects', 'assets/objects.png', {
-      frameWidth: 65,
+      frameWidth: 64,
       frameHeight: 65
     });
 
