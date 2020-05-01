@@ -6,6 +6,9 @@ import { OptionsScene } from './scenes/optionsScene';
 class Game extends Phaser.Game {
   constructor(config) {
     super(config);
+    this.globals = {};
+    this.globals.music = true;
+    this.globals.musicPlaying = false;
     this.scene.add('BootScene', BootScene);
     this.scene.add('PreloaderScene', PreloaderScene);
     this.scene.add('TitleScene', TitleScene);

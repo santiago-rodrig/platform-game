@@ -14,7 +14,7 @@ export class PreloaderScene extends Phaser.Scene {
       y: height / 2 - 50,
       text: 'Loading...',
       style: {
-        font: '20px monospace',
+        font: '24px monospace',
         fill: '#ffffff'
       }
     });
