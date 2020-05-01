@@ -36,11 +36,5 @@ export class TitleScene extends Phaser.Scene {
       height / 2 + 100,
       'Credits', 'CreditsScene'
     );
-
-    // trick for suspended audio context
-    // https://phaser.discourse.group/t/audiocontext-was-not-allowed-to-start/795
-    if (this.sys.game.sound.context.state === 'suspended') {
-      this.sys.game.sound.context.resume();
-    }
   }
 }
