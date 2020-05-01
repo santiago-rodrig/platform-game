@@ -1,4 +1,5 @@
 import { Button } from "../objects/button";
+import { Background } from '../objects/background';
 
 export class OptionsScene extends Phaser.Scene {
   constructor() {
@@ -6,20 +7,22 @@ export class OptionsScene extends Phaser.Scene {
   }
 
   create() {
+    new Background(this);
+
     this.SceneTitle = this.make.text({
       x: 300,
       y: 100,
       text: 'Options',
       style: {
         font: '40px monospace',
-        fill: '#ffffff'
+        fill: '#222222'
       }
     });
 
-    if (this.sys.game.globals.music) {
-      this.musicCheckBox = this.add.image(200, 200, 'pixelArt', 696);
+    if (!this.sys.game.globals.music) {
+      this.musicCheckBox = this.add.image(200, 200, 'pixelArt', 159);
     } else {
-      this.musicCheckBox = this.add.image(200, 200, 'pixelArt', 666);
+      this.musicCheckBox = this.add.image(200, 200, 'pixelArt', 189);
     }
 
     this.musicLabel = this.make.text({
@@ -28,12 +31,13 @@ export class OptionsScene extends Phaser.Scene {
       text: 'Music',
       style: {
         font: '24px monospace',
-        fill: '#ffffff'
+        fill: '#222222'
       }
     });
 
     this.musicLabel.setOrigin(0.3, 0.25);
     this.musicCheckBox.setInteractive();
+    this.musicCheckBox.setScale(2);
 
     this.musicCheckBox.on('pointerdown', function () {
       this.sys.game.globals.music = !this.sys.game.globals.music;
@@ -41,10 +45,10 @@ export class OptionsScene extends Phaser.Scene {
 
       if (!this.sys.game.globals.music) {
         this.sys.game.globals.backgroundMusic.stop();
-        this.musicCheckBox.setTexture('pixelArt', 666);
+        this.musicCheckBox.setTexture('pixelArt', 159);
       } else {
         this.sys.game.globals.backgroundMusic.play();
-        this.musicCheckBox.setTexture('pixelArt', 696);
+        this.musicCheckBox.setTexture('pixelArt', 189);
       }
     }.bind(this));
 
