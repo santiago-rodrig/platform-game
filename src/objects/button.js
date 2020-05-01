@@ -1,10 +1,11 @@
-export default class Button extends Phaser.GameObjects.Container {
+export class Button extends Phaser.GameObjects.Container {
   constructor(scene, x, y, text, targetScene) {
     super(scene);
     this.scene = scene;
     this.x = x;
     this.y = y;
     this.button = this.scene.add.sprite(0, 0, 'button').setInteractive();
+    this.button.scaleX = 3;
 
     this.text = this.scene.make.text({
       x: 0,
@@ -31,6 +32,7 @@ export default class Button extends Phaser.GameObjects.Container {
     this.button.on('pointerout', function (pointer) {
       this.button.setTexture('button');
     }.bind(this));
+
     this.scene.add.existing(this);
   }
 }

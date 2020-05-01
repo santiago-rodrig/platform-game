@@ -88,8 +88,8 @@ export class PreloaderScene extends Phaser.Scene {
       margin: 2
     });
 
-    this.load.sprite('button', 'assets/button.png');
-    this.load.sprite('buttonPressed', 'assets/buttonPressed');
+    this.load.image('button', 'assets/userInterface/button.png');
+    this.load.image('buttonPressed', 'assets/userInterface/buttonPressed.png');
   }
 
   init() {

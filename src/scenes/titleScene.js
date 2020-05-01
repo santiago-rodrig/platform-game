@@ -15,6 +15,7 @@ export class TitleScene extends Phaser.Scene {
 
     this.backgroundMusic.play();
 
-    this.gameButton = new Button(this, width / 2, height / 2 - 100, )
+    this.gameButton = new Button(this, width / 2, height / 2 - 100, 'Play',
+      'GameScene');
   }
 }
