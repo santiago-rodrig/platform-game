@@ -57,5 +57,9 @@ export class PreloaderScene extends Phaser.Scene {
       progressBar.fillStyle('#00ff00', 1);
       progressBar.fillRect(250, 400, 300 * value, 30);
     });
+
+    this.load.on('fileprogress', function (file) {
+      assetText.setText(file.src);
+    });
   }
 }
