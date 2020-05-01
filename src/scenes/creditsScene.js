@@ -51,10 +51,7 @@ export class CreditsScene extends Phaser.Scene {
       y: -100,
       ease: 'Power1',
       duration: 3000,
-      delay: 1000,
-      onComplete: function () {
-        this.sceneTween.destroy();
-      }.bind(this)
+      delay: 1000
     });
 
     this.authorTween = this.tweens.add({
@@ -64,7 +61,6 @@ export class CreditsScene extends Phaser.Scene {
       duration: 7000,
       delay: 1000,
       onComplete: function () {
-        this.authorTween.destroy();
         this.scene.start('TitleScene');
       }.bind(this)
     });
