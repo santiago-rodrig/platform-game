@@ -13,7 +13,7 @@ export class Button extends Phaser.GameObjects.Container {
       text: text,
       style: {
         font: '28px monospace',
-        fill: '#ffffff'
+        fill: '#222222'
       }
     });
 
