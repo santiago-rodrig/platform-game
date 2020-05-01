@@ -85,8 +85,11 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.spritesheet('pixelArt', 'assets/userInterface/pixelArt.png', {
       frameWidth: 16,
       frameHeight: 16,
-      spacing: 2
+      margin: 2
     });
+
+    this.load.sprite('button', 'assets/button.png');
+    this.load.sprite('buttonPressed', 'assets/buttonPressed');
   }
 
   init() {
