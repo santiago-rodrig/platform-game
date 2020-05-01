@@ -61,5 +61,13 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.on('fileprogress', function (file) {
       assetText.setText(file.src);
     });
+
+    this.load.on('complete', function() {
+      progressBar.destroy();
+      progressBox.destroy();
+      loadingText.destroy();
+      percentText.destroy();
+      assetText.destroy();
+    }.bind(this));
   }
 }
