@@ -68,6 +68,15 @@ export class PreloaderScene extends Phaser.Scene {
       loadingText.destroy();
       percentText.destroy();
       assetText.destroy();
+      this.ready();
     }.bind(this));
+
+    this.time.delayedCall(2000, this.ready, [], this);
+  }
+
+  ready() {
+    this.readyCount += 1;
+
+    if (this.readyCount === 2) this.scene.start('TitleScene');
   }
 }
