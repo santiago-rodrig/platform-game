@@ -52,7 +52,10 @@ export class PreloaderScene extends Phaser.Scene {
     );
 
     this.load.on('progress', function (value) {
-      
+      percentText.setText(parseInt(value * 100) + '%');
+      progressBar.clear();
+      progressBar.fillStyle('#ffffff', 1);
+      progressBar.fillRect(250, 400, 300 * value, 30);
     });
   }
 }
