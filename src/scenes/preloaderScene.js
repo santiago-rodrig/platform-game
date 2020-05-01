@@ -43,6 +43,9 @@ export class PreloaderScene extends Phaser.Scene {
     percentText.setOrigin(0.5, 0.5);
     loadingText.setOrigin(0.5, 0.5);
     progressBox.fillStyle(0x222222, 0.8);
+    progressBox.setDepth(1);
+    progressBar.setDepth(2);
+    percentText.setDepth(3);
 
     progressBox.fillRect(
       width / 2 - 320 / 2,
@@ -54,8 +57,13 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.on('progress', function (value) {
       percentText.setText(parseInt(value * 100) + '%');
       progressBar.clear();
-      progressBar.fillStyle('#00ff00', 1);
-      progressBar.fillRect(250, 400, 300 * value, 30);
+      progressBar.fillStyle(0x00ff00, 1);
+
+      progressBar.fillRect(
+        width / 2 - 300 / 2,
+        height / 2 + 10,
+        300 * value,
+        30);
     });
 
     this.load.on('fileprogress', function (file) {
@@ -73,6 +81,10 @@ export class PreloaderScene extends Phaser.Scene {
 
     this.time.delayedCall(2000, this.ready, [], this);
     this.load.audio('backgroundMusic', ['assets/backgroundMusic.mp3']);
+  }
+
+  init() {
+    this.readyCount = 0;
   }
 
   ready() {
