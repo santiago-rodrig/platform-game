@@ -21,7 +21,7 @@ export class PreloaderScene extends Phaser.Scene {
 
     const percentText = this.make.text({
       x: width / 2,
-      y: height / 2,
+      y: height / 2 + 25,
       text: '0%',
       style: {
         font: '18px monospace',
