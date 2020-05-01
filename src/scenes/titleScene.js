@@ -9,19 +9,38 @@ export class TitleScene extends Phaser.Scene {
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
 
-    this.backgroundMusic = this.sound.add('backgroundMusic', {
-      volume: 0.5, loop: true
-    });
+    this.backgroundMusic = this.sound.add(
+      'backgroundMusic',
+      { volume: 0.5, loop: true }
+    );
 
     this.backgroundMusic.play();
 
-    this.gameButton = new Button(this, width / 2, height / 2 - 100, 'Play',
-      'GameScene');
+    this.gameButton = new Button(this,
+      width / 2,
+      height / 2 - 100,
+      'Play',
+      'GameScene'
+    );
 
-    this.optionsButton = new Button(this, width / 2, height / 2, 'Options',
-      'OptionsScene');
+    this.optionsButton = new Button(this,
+      width / 2,
+      height / 2,
+      'Options',
+      'OptionsScene'
+    );
 
-    this.creditsButton = new Button(this, width / 2, height / 2 + 100,
-       'Credits', 'CreditsScene');
+    this.creditsButton = new Button(
+      this,
+      width / 2,
+      height / 2 + 100,
+      'Credits', 'CreditsScene'
+    );
+
+    // trick for suspended audio context
+    // https://phaser.discourse.group/t/audiocontext-was-not-allowed-to-start/795
+    if (this.sys.game.sound.context.state === 'suspended') {
+      this.sys.game.sound.context.resume();
+    }
   }
 }
