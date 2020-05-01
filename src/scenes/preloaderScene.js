@@ -72,6 +72,7 @@ export class PreloaderScene extends Phaser.Scene {
     }.bind(this));
 
     this.time.delayedCall(2000, this.ready, [], this);
+    this.load.audio('backgroundMusic', ['assets/backgroundMusic.mp3']);
   }
 
   ready() {
