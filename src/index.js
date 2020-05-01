@@ -2,17 +2,22 @@ import { BootScene } from './scenes/bootScene';
 import { PreloaderScene } from './scenes/preloaderScene';
 import { TitleScene } from './scenes/titleScene';
 import { OptionsScene } from './scenes/optionsScene';
+import { CreditsScene } from './scenes/creditsScene';
 
 class Game extends Phaser.Game {
   constructor(config) {
     super(config);
-    this.globals = {};
-    this.globals.music = true;
-    this.globals.musicPlaying = false;
+
+    this.globals = {
+      music: true,
+      musicPlaying: false
+    };
+
     this.scene.add('BootScene', BootScene);
     this.scene.add('PreloaderScene', PreloaderScene);
     this.scene.add('TitleScene', TitleScene);
     this.scene.add('OptionsScene', OptionsScene);
+    this.scene.add('CreditsScene', CreditsScene);
     this.scene.start('BootScene');
   }
 }
