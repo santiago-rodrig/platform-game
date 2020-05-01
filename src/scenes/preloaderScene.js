@@ -45,7 +45,7 @@ export class PreloaderScene extends Phaser.Scene {
     progressBox.fillStyle(0x222222, 0.8);
 
     progressBox.fillRect(
-      width / 2,
+      width / 2 - 320 / 2,
       height / 2,
       320,
       50
