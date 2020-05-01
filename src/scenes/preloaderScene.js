@@ -82,7 +82,7 @@ export class PreloaderScene extends Phaser.Scene {
     this.time.delayedCall(2000, this.ready, [], this);
     this.load.audio('backgroundMusic', ['assets/backgroundMusic.mp3']);
 
-    this.load.spritesheet('pixelArt', 'assets/userInterface/pixelArt.png', {
+    this.load.spritesheet('ui', 'assets/userInterface/ui.png', {
       frameWidth: 16,
       frameHeight: 16,
       spacing: 2

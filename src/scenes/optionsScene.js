@@ -20,9 +20,9 @@ export class OptionsScene extends Phaser.Scene {
     });
 
     if (!this.sys.game.globals.music) {
-      this.musicCheckBox = this.add.image(200, 200, 'pixelArt', 159);
+      this.musicCheckBox = this.add.image(200, 200, 'ui', 159);
     } else {
-      this.musicCheckBox = this.add.image(200, 200, 'pixelArt', 189);
+      this.musicCheckBox = this.add.image(200, 200, 'ui', 189);
     }
 
     this.musicLabel = this.make.text({
@@ -45,10 +45,10 @@ export class OptionsScene extends Phaser.Scene {
 
       if (!this.sys.game.globals.music) {
         this.sys.game.globals.backgroundMusic.stop();
-        this.musicCheckBox.setTexture('pixelArt', 159);
+        this.musicCheckBox.setTexture('ui', 159);
       } else {
         this.sys.game.globals.backgroundMusic.play();
-        this.musicCheckBox.setTexture('pixelArt', 189);
+        this.musicCheckBox.setTexture('ui', 189);
       }
     }.bind(this));
 
