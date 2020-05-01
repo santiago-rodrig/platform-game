@@ -88,6 +88,11 @@ export class PreloaderScene extends Phaser.Scene {
       spacing: 2
     });
 
+    this.load.spritesheet('objects', 'assets/objects.png', {
+      frameWidth: 65,
+      frameHeight: 65
+    });
+
     this.load.image('button', 'assets/userInterface/button.png');
     this.load.image('buttonPressed', 'assets/userInterface/buttonPressed.png');
     this.load.image('background', 'assets/background.png');
