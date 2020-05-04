@@ -28,7 +28,13 @@ window.addEventListener('load', function () {
   const config = {
     width: 800,
     height: 600,
-    physics: { default: 'arcade' }
+    physics: {
+      default: 'arcade',
+      arcade: {
+        gravity: { y: 900 },
+        debug: false
+      }
+    }
   };
 
   new Game(config);

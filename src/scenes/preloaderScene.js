@@ -88,6 +88,11 @@ export class PreloaderScene extends Phaser.Scene {
       spacing: 2
     });
 
+    this.load.spritesheet('player', 'assets/player.png', {
+      frameWidth: 96,
+      frameHeight: 96,
+    });
+
     this.load.spritesheet('objects', 'assets/objects.png', {
       frameWidth: 64,
       frameHeight: 65
