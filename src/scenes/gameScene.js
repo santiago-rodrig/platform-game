@@ -1,6 +1,6 @@
 export class LevelOneScene extends Phaser.Scene {
   constructor() {
-    super('LevelOneScene');
+    super('GameScene');
   }
 
   create() {

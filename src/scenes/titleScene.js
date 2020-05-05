@@ -27,7 +27,7 @@ export class TitleScene extends Phaser.Scene {
       width / 2,
       height / 2 - 100,
       'Play',
-      'LevelOneScene'
+      'GameScene'
     );
 
     this.optionsButton = new Button(this,
