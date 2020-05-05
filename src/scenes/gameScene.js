@@ -44,6 +44,28 @@ export class GameScene extends Phaser.Scene {
 
     this.platforms = [];
     this.platforms.push(firstPlatform);
+
+    this.time.addEvent({
+      delay: 1000,
+      loop: true,
+      callback: function () {
+        if (this.thereIsSpaceBetweenPlatforms()) {
+          this.platforms.push(this.buildPlatform(
+            832,
+            300 + Phaser.Math.Between(-100, 200),
+            Phaser.Math.Between(2, 5)
+          ));
+        }
+      }.bind(this)
+    });
+  }
+
+  thereIsSpaceBetweenPlatforms() {
+    const lastPlatform = this.platforms[this.platforms.length - 1];
+    let lastBlock = lastPlatform.getChildren();
+    lastBlock = lastBlock[lastBlock.length - 1];
+
+    return lastBlock.x <= 648;
   }
 
   buildPlatform(positionX, positionY, blocksCount=1) {
@@ -78,5 +100,25 @@ export class GameScene extends Phaser.Scene {
         }
       }
     }.bind(this));
+
+    this.platforms.forEach(function (platform, index) {
+      const blocks = platform.getChildren();
+      const lastBlock = blocks[blocks.length - 1];
+
+      if (lastBlock.x <= 32) {
+        this.platformToUpdate = index;
+      }
+    }.bind(this));
+
+    if (this.platformToUpdate) {
+      this.platforms = this.platforms.slice(
+        0,
+        this.platformToUpdate
+      ).concat(
+        this.platforms.slice(this.platformToUpdate + 1)
+      );
+
+      this.platformToUpdate = null;
+    }
   }
 }
