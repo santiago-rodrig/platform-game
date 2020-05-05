@@ -7,6 +7,7 @@ export class LevelOneScene extends Phaser.Scene {
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
 
+    this.gameOver = false;
     this.add.image(width / 2, height / 2 - 212, 'background');
     this.add.image(width / 2 + 1024, height / 2 - 212, 'background');
 
@@ -16,6 +17,7 @@ export class LevelOneScene extends Phaser.Scene {
     this.addPlatforms(32, height - 32, 1, 10);
     // 10 * 64 + 32 = 672
     this.addPlatforms(672, height - 32, 1, 20);
+    this.buttonGoal = this.physics.add.sprite(600, height - 96, 'objects', 96);
 
     this.anims.create({
       key: 'advance',
@@ -29,7 +31,20 @@ export class LevelOneScene extends Phaser.Scene {
     this.player = this.physics.add.sprite(10, height - 300, 'player', 0);
     this.player.setCollideWorldBounds(true);
     this.physics.add.collider(this.player, this.platforms);
+    this.physics.add.collider(this.buttonGoal, this.platforms);
+
+    this.physics.add.overlap(
+      this.player, this.buttonGoal, this.completeLevel, null, this
+    );
+
     this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
+  }
+
+  completeLevel(player, button) {
+    button.setFrame(97);
+    this.player.setFrame(7);
+    this.gameOver = true;
+    this.player.setVelocityX(0);
   }
 
   addPlatforms(x, y, rows, columns) {
@@ -47,29 +62,31 @@ export class LevelOneScene extends Phaser.Scene {
   }
 
   update() {
-    if (this.player.body.touching.down) {
-      if (this.cursors.up.isDown) {
-        this.player.setVelocityY(-500);
-        this.player.anims.stop();
-        this.player.setFrame(1);
-      } else if (this.cursors.right.isDown) {
-        this.player.setVelocityX(160);
-        this.player.flipX = false;
+    if (!this.gameOver) {
+      if (this.player.body.touching.down) {
+        if (this.cursors.up.isDown) {
+          this.player.setVelocityY(-500);
+          this.player.anims.stop();
+          this.player.setFrame(1);
+        } else if (this.cursors.right.isDown) {
+          this.player.setVelocityX(160);
+          this.player.flipX = false;
 
-        if (!this.player.anims.isPlaying) {
-          this.player.anims.play('advance');
-        }
-      } else if (this.cursors.left.isDown) {
-        this.player.setVelocityX(-160);
-        this.player.flipX = true;
+          if (!this.player.anims.isPlaying) {
+            this.player.anims.play('advance');
+          }
+        } else if (this.cursors.left.isDown) {
+          this.player.setVelocityX(-160);
+          this.player.flipX = true;
 
-        if (!this.player.anims.isPlaying) {
-          this.player.anims.play('advance');
+          if (!this.player.anims.isPlaying) {
+            this.player.anims.play('advance');
+          }
+        } else {
+          this.player.setVelocityX(0);
+          this.player.anims.stop();
+          this.player.setFrame(0);
         }
-      } else {
-        this.player.setVelocityX(0);
-        this.player.anims.stop();
-        this.player.setFrame(0);
       }
     }
   }

@@ -14,7 +14,7 @@ export class TitleScene extends Phaser.Scene {
     if (!this.sys.game.globals.backgroundMusic) {
       this.sys.game.globals.backgroundMusic = this.sound.add(
         'backgroundMusic',
-        { volume: 0.5, loop: true }
+        { volume: 0.25, loop: true }
       );
     }
 

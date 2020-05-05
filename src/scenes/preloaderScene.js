@@ -95,7 +95,7 @@ export class PreloaderScene extends Phaser.Scene {
 
     this.load.spritesheet('objects', 'assets/objects.png', {
       frameWidth: 64,
-      frameHeight: 65
+      frameHeight: 64
     });
 
     this.load.image('button', 'assets/userInterface/button.png');
