@@ -43,13 +43,10 @@ export class LevelOneScene extends Phaser.Scene {
 
   update() {
     if (this.player.body.touching.down) {
-      if (this.cursors.left.isDown) {
-        this.player.setVelocityX(-160);
-        this.player.flipX = true;
-
-        if (!this.player.anims.isPlaying) {
-          this.player.anims.play('advance');
-        }
+      if (this.cursors.up.isDown) {
+        this.player.setVelocityY(-500);
+        this.player.anims.stop();
+        this.player.setFrame(1);
       } else if (this.cursors.right.isDown) {
         this.player.setVelocityX(160);
         this.player.flipX = false;
@@ -57,10 +54,13 @@ export class LevelOneScene extends Phaser.Scene {
         if (!this.player.anims.isPlaying) {
           this.player.anims.play('advance');
         }
-      } else if (this.cursors.up.isDown) {
-        this.player.setVelocityY(-500);
-        this.player.anims.stop();
-        this.player.setFrame(1);
+      } else if (this.cursors.left.isDown) {
+        this.player.setVelocityX(-160);
+        this.player.flipX = true;
+
+        if (!this.player.anims.isPlaying) {
+          this.player.anims.play('advance');
+        }
       } else {
         this.player.setVelocityX(0);
         this.player.anims.stop();
