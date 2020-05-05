@@ -32,8 +32,15 @@ export class LevelOneScene extends Phaser.Scene {
       { volume: 0.5, loop: false }
     );
 
+    this.jewelAudio = this.sound.add(
+      'jewelGathering',
+      { volume: 0.5, loop: false }
+    );
+
     this.cursors = this.input.keyboard.createCursorKeys();
     this.platforms = this.physics.add.staticGroup();
+    this.jewels = this.physics.add.staticGroup();
+    this.jewels.create(500, 500, 'objects', 36);
 
     this.addPlatforms(32, height - 32, 1, 10);
     // 10 * 64 + 32 = 672
@@ -60,7 +67,16 @@ export class LevelOneScene extends Phaser.Scene {
       this.player, this.buttonGoal, this.completeLevel, null, this
     );
 
+    this.physics.add.overlap(
+      this.player, this.jewels, this.gatherJewel, null, this
+    );
+
     this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
+  }
+
+  gatherJewel(player, jewel) {
+    jewel.destroy();
+    this.jewelAudio.play();
   }
 
   completeLevel(player, button) {
