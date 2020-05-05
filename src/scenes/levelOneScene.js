@@ -1,5 +1,3 @@
-import { Background } from '../objects/background';
-
 export class LevelOneScene extends Phaser.Scene {
   constructor() {
     super('LevelOneScene');
@@ -9,7 +7,9 @@ export class LevelOneScene extends Phaser.Scene {
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
 
-    new Background(this);
+    this.add.image(width / 2, height / 2 - 212, 'background');
+    this.add.image(width / 2 + 1024, height / 2 - 212, 'background');
+
     this.cursors = this.input.keyboard.createCursorKeys();
     this.platforms = this.physics.add.staticGroup();
 

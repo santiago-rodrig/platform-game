@@ -1,5 +1,4 @@
 import { Button } from "../objects/button";
-import { Background } from '../objects/background';
 
 export class OptionsScene extends Phaser.Scene {
   constructor() {
@@ -7,7 +6,10 @@ export class OptionsScene extends Phaser.Scene {
   }
 
   create() {
-    new Background(this);
+    const width = this.main.cameras.width;
+    const height = this.main.cameras.height;
+
+    this.add.image(width / 2, height / 2 - 212, 'background');
 
     this.SceneTitle = this.make.text({
       x: 300,

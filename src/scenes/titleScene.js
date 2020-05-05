@@ -1,5 +1,4 @@
 import { Button } from '../objects/button';
-import { Background } from '../objects/background';
 
 export class TitleScene extends Phaser.Scene {
   constructor() {
@@ -10,7 +9,7 @@ export class TitleScene extends Phaser.Scene {
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
 
-    new Background(this);
+    this.add.image(width / 2, height / 2 - 212, 'background');
 
     if (!this.sys.game.globals.backgroundMusic) {
       this.sys.game.globals.backgroundMusic = this.sound.add(
