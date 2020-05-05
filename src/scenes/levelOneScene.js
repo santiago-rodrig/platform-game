@@ -14,6 +14,8 @@ export class LevelOneScene extends Phaser.Scene {
     this.platforms = this.physics.add.staticGroup();
 
     this.addPlatforms(32, height - 32, 1, 10);
+    // 10 * 64 + 32 = 672
+    this.addPlatforms(672, height - 32, 1, 20);
 
     this.anims.create({
       key: 'advance',
@@ -22,9 +24,12 @@ export class LevelOneScene extends Phaser.Scene {
       repeat: -1
     });
 
+    this.cameras.main.setBounds(0, 0, 800 * 2, 600);
+    this.physics.world.setBounds(0, 0, 800 * 2, 600);
     this.player = this.physics.add.sprite(10, height - 300, 'player', 0);
     this.player.setCollideWorldBounds(true);
     this.physics.add.collider(this.player, this.platforms);
+    this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
   }
 
   addPlatforms(x, y, rows, columns) {
