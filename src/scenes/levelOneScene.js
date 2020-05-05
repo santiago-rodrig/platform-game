@@ -25,6 +25,11 @@ export class LevelOneScene extends Phaser.Scene {
 
     this.jumpAudioIsPlaying = false;
 
+    this.levelCompletedAudio = this.sound.add(
+      'levelCompleted',
+      { volume: 0.5, loop: false }
+    );
+
     this.cursors = this.input.keyboard.createCursorKeys();
     this.platforms = this.physics.add.staticGroup();
 
@@ -57,10 +62,16 @@ export class LevelOneScene extends Phaser.Scene {
   }
 
   completeLevel(player, button) {
-    button.setFrame(97);
-    this.player.setFrame(7);
-    this.gameOver = true;
-    this.player.setVelocityX(0);
+    if (!this.gameOver) {
+      button.setFrame(97);
+      this.player.anims.stop();
+      this.player.setFrame(7);
+      this.gameOver = true;
+      this.player.setVelocityX(0);
+      this.footstepAudio.stop();
+      this.jumpAudio.stop();
+      this.levelCompletedAudio.play();
+    }
   }
 
   addPlatforms(x, y, rows, columns) {
