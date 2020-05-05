@@ -81,6 +81,10 @@ export class PreloaderScene extends Phaser.Scene {
 
     this.time.delayedCall(2000, this.ready, [], this);
     this.load.audio('backgroundMusic', ['assets/backgroundMusic.mp3']);
+    this.load.audio('footstep', ['assets/footstep.ogg']);
+    this.load.audio('levelCompleted', ['assets/levelCompleted.ogg']);
+    this.load.audio('jewelGathering', ['assets/jewelGathering.ogg']);
+    this.load.audio('gameOver', ['assets/gameOver.ogg']);
 
     this.load.spritesheet('ui', 'assets/userInterface/ui.png', {
       frameWidth: 16,
