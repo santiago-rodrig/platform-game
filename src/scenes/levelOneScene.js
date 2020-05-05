@@ -78,7 +78,7 @@ export class LevelOneScene extends Phaser.Scene {
       cover.fillRect(this.player.x - 400, this.cameras.main.y, 800, 600);
 
       const winnerText = this.make.text({
-        x: this.player.x - 150,
+        x: this.player.x - 125,
         y: 300,
         text: 'LEVEL COMPLETED!',
         style: {
@@ -87,8 +87,8 @@ export class LevelOneScene extends Phaser.Scene {
         }
       });
 
-      new Button(this, this.player.x + 100, 400, 'Continue', 'LevelTwoscene');
-      new Button(this, this.player.x - 100, 400, 'Menu', 'TitleScene');
+      new Button(this, this.player.x + 90, 400, 'Continue', 'LevelTwoscene');
+      new Button(this, this.player.x - 80, 400, 'Menu', 'TitleScene');
     }
   }
 
