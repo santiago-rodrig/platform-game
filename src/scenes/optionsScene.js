@@ -6,8 +6,8 @@ export class OptionsScene extends Phaser.Scene {
   }
 
   create() {
-    const width = this.main.cameras.width;
-    const height = this.main.cameras.height;
+    const width = this.cameras.main.width;
+    const height = this.cameras.main.height;
 
     this.add.image(width / 2, height / 2 - 212, 'background');
 

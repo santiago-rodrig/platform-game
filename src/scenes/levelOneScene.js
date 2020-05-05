@@ -1,3 +1,5 @@
+import { Button } from '../objects/button';
+
 export class LevelOneScene extends Phaser.Scene {
   constructor() {
     super('LevelOneScene');
@@ -71,6 +73,22 @@ export class LevelOneScene extends Phaser.Scene {
       this.footstepAudio.stop();
       this.jumpAudio.stop();
       this.levelCompletedAudio.play();
+      const cover = this.add.graphics();
+      cover.fillStyle(0x222222, 0.8);
+      cover.fillRect(this.player.x - 400, this.cameras.main.y, 800, 600);
+
+      const winnerText = this.make.text({
+        x: this.player.x - 150,
+        y: 300,
+        text: 'LEVEL COMPLETED!',
+        style: {
+          font: '30px monospace',
+          fill: '#ffffff'
+        }
+      });
+
+      new Button(this, this.player.x + 100, 400, 'Continue', 'LevelTwoscene');
+      new Button(this, this.player.x - 100, 400, 'Menu', 'TitleScene');
     }
   }
 
