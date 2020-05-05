@@ -85,6 +85,7 @@ export class PreloaderScene extends Phaser.Scene {
     this.load.audio('levelCompleted', ['assets/levelCompleted.ogg']);
     this.load.audio('jewelGathering', ['assets/jewelGathering.ogg']);
     this.load.audio('gameOver', ['assets/gameOver.ogg']);
+    this.load.audio('jump', ['assets/jump.ogg']);
 
     this.load.spritesheet('ui', 'assets/userInterface/ui.png', {
       frameWidth: 16,

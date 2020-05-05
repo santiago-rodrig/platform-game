@@ -17,6 +17,14 @@ export class LevelOneScene extends Phaser.Scene {
     );
 
     this.footstepSAudioIsPlaying = false;
+
+    this.jumpAudio = this.sound.add(
+      'jump',
+      { volume: 0.5, loop: false }
+    );
+
+    this.jumpAudioIsPlaying = false;
+
     this.cursors = this.input.keyboard.createCursorKeys();
     this.platforms = this.physics.add.staticGroup();
 
@@ -72,12 +80,18 @@ export class LevelOneScene extends Phaser.Scene {
   update() {
     if (!this.gameOver) {
       if (this.player.body.touching.down) {
+        this.jumpAudioIsPlaying = false;
+
         if (this.cursors.up.isDown) {
           this.player.setVelocityY(-500);
           this.player.anims.stop();
           this.player.setFrame(1);
           this.footstepAudio.stop();
           this.footstepSAudioIsPlaying = false;
+
+          if (!this.jumpAudioIsPlaying) {
+            this.jumpAudio.play();
+          }
         } else if (this.cursors.right.isDown) {
           this.player.setVelocityX(200);
           this.player.flipX = false;
@@ -109,6 +123,8 @@ export class LevelOneScene extends Phaser.Scene {
           this.footstepAudio.stop();
           this.footstepSAudioIsPlaying = false;
         }
+      } else {
+        this.jumpAudioIsPlaying = true;
       }
     }
   }
