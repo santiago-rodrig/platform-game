@@ -1,5 +1,3 @@
-import { Button } from '../objects/button';
-
 export class LevelOneScene extends Phaser.Scene {
   constructor() {
     super('LevelOneScene');
@@ -27,20 +25,8 @@ export class LevelOneScene extends Phaser.Scene {
 
     this.jumpAudioIsPlaying = false;
 
-    this.levelCompletedAudio = this.sound.add(
-      'levelCompleted',
-      { volume: 0.5, loop: false }
-    );
-
-    this.jewelAudio = this.sound.add(
-      'jewelGathering',
-      { volume: 0.5, loop: false }
-    );
-
     this.cursors = this.input.keyboard.createCursorKeys();
     this.platforms = this.physics.add.staticGroup();
-    this.jewels = this.physics.add.staticGroup();
-    this.jewels.create(500, 500, 'objects', 36);
 
     this.addPlatforms(32, height - 32, 1, 10);
     // 10 * 64 + 32 = 672
@@ -67,45 +53,14 @@ export class LevelOneScene extends Phaser.Scene {
       this.player, this.buttonGoal, this.completeLevel, null, this
     );
 
-    this.physics.add.overlap(
-      this.player, this.jewels, this.gatherJewel, null, this
-    );
-
     this.cameras.main.startFollow(this.player, true, 0.05, 0.05);
   }
 
-  gatherJewel(player, jewel) {
-    jewel.destroy();
-    this.jewelAudio.play();
-  }
-
   completeLevel(player, button) {
-    if (!this.gameOver) {
-      button.setFrame(97);
-      this.player.anims.stop();
-      this.player.setFrame(7);
-      this.gameOver = true;
-      this.player.setVelocityX(0);
-      this.footstepAudio.stop();
-      this.jumpAudio.stop();
-      this.levelCompletedAudio.play();
-      const cover = this.add.graphics();
-      cover.fillStyle(0x222222, 0.8);
-      cover.fillRect(this.player.x - 400, this.cameras.main.y, 800, 600);
-
-      const winnerText = this.make.text({
-        x: this.player.x - 125,
-        y: 300,
-        text: 'LEVEL COMPLETED!',
-        style: {
-          font: '30px monospace',
-          fill: '#ffffff'
-        }
-      });
-
-      new Button(this, this.player.x + 90, 400, 'Continue', 'LevelTwoscene');
-      new Button(this, this.player.x - 80, 400, 'Menu', 'TitleScene');
-    }
+    button.setFrame(97);
+    this.player.setFrame(7);
+    this.gameOver = true;
+    this.player.setVelocityX(0);
   }
 
   addPlatforms(x, y, rows, columns) {
