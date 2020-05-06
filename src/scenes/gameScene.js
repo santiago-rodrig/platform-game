@@ -96,6 +96,11 @@ export class GameScene extends Phaser.Scene {
   setJewels() {
     this.jewels = this.physics.add.group();
     this.jewelsToRemove = [];
+
+    this.jewelSound = this.sound.add(
+      'jewelGathering',
+      { volume: 1, loop: false }
+    );
   }
 
   buildJewel(positionX, positionY) {
@@ -114,6 +119,7 @@ export class GameScene extends Phaser.Scene {
 
   collectJewel(player, jewel) {
     jewel.destroy();
+    this.jewelSound.play();
   }
 
   getJewelChance() {
