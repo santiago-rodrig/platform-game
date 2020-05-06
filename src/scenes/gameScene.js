@@ -6,6 +6,7 @@ export class GameScene extends Phaser.Scene {
   create() {
     this.setBackground();
     this.setPlatforms();
+    this.setPlayer();
   }
 
   setBackground() {
@@ -29,6 +30,28 @@ export class GameScene extends Phaser.Scene {
   }
 
   setPlayer() {
+    const height = this.cameras.main.height;
+
+    this.player = this.physics.add.sprite(100, height / 2 + 120, 'player');
+    this.player.setFrame(0);
+    this.player.setGravityY(900);
+
+    this.anims.create({
+      key: 'run',
+      frames: this.anims.generateFrameNumbers('player', { start: 2, end: 3 }),
+      frameRate: 8,
+      repeat: -1
+    });
+
+    this.platforms.forEach(function (platform) {
+      this.setPlatformCollider(platform);
+    }, this);
+  }
+
+  setPlatformCollider(platform) {
+    platform.children.iterate(function (block) {
+      this.physics.add.collider(this.player, block);
+    }.bind(this));
   }
 
   setJewels() {
@@ -68,6 +91,7 @@ export class GameScene extends Phaser.Scene {
 
     platform.children.iterate(function (block) {
       block.setVelocityX(-60);
+      block.setImmovable(true);
     });
 
     return platform;
@@ -108,11 +132,14 @@ export class GameScene extends Phaser.Scene {
     }
 
     if (this.thereIsSpaceBetweenPlatforms(152)) {
-      this.platforms.push(this.buildPlatform(
+      this.newPlatform = this.buildPlatform(
         832,
         300 + Phaser.Math.Between(-100, 200),
         Phaser.Math.Between(2, 5)
-      ));
+      );
+
+      this.platforms.push(this.newPlatform);
+      this.setPlatformCollider(this.newPlatform);
     }
   }
 }
