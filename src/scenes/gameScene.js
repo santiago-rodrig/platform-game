@@ -38,6 +38,7 @@ export class GameScene extends Phaser.Scene {
     this.player.setFrame(0);
     this.player.setGravityY(800);
     this.player.jumpsCount = 2;
+    this.player.setSize(54, 96);
     this.player.isJumping = false;
 
     this.player.jumpsAvailable = function () {
@@ -87,7 +88,9 @@ export class GameScene extends Phaser.Scene {
   }
 
   buildJewel(positionX, positionY) {
-    const jewel = this.physics.add.sprite(positionX, positionY, 'objects', 36);
+    const jewel = this.physics.add.sprite(
+      positionX, positionY - 84, 'objects', 36
+    );
 
     jewel.width = 40;
     jewel.height = 40;
@@ -150,7 +153,7 @@ export class GameScene extends Phaser.Scene {
       const midPoint = Math.round(platformWidth / 2);
 
       if (this.getJewelChance()) {
-        this.buildJewel(800 + midPoint, positionY - 64);
+        this.buildJewel(800 + midPoint, positionY);
       }
 
       if (this.getObstacleChance()) {
