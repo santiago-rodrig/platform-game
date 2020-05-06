@@ -71,8 +71,18 @@ export class GameScene extends Phaser.Scene {
   buildJewel(positionX, positionY) {
     const jewel = this.physics.add.sprite(positionX, positionY, 'objects', 36);
 
+    jewel.width = 40;
+    jewel.height = 40;
     this.jewels.add(jewel);
     this.jewels.getLast(true).setVelocityX(-200);
+
+    this.physics.add.overlap(
+      this.player, this.jewels.getLast(true), this.collectJewel, null, this
+    );
+  }
+
+  collectJewel(player, jewel) {
+    jewel.destroy();
   }
 
   getJewelChance() {
