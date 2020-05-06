@@ -80,6 +80,7 @@ export class GameScene extends Phaser.Scene {
 
     this.obstacles.add(obstacle);
     this.obstacles.getLast(true).setVelocityX(-200);
+    this.obstacles.getLast(true).setSize(70, 40);
 
     this.physics.add.overlap(
       this.player, this.obstacles.getLast(true), this.gameOver, null, this
@@ -102,10 +103,9 @@ export class GameScene extends Phaser.Scene {
       positionX, positionY - 84, 'objects', 36
     );
 
-    jewel.width = 40;
-    jewel.height = 40;
     this.jewels.add(jewel);
     this.jewels.getLast(true).setVelocityX(-200);
+    this.jewels.getLast(true).setSize(40, 40);
 
     this.physics.add.overlap(
       this.player, this.jewels.getLast(true), this.collectJewel, null, this
@@ -275,8 +275,9 @@ export class GameScene extends Phaser.Scene {
     } else {
       if (this.player.anims.isPlaying) {
         this.player.anims.stop()
-        this.player.setFrame(6);
       }
+
+      this.player.setFrame(6);
     }
   }
 }
