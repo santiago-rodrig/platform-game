@@ -46,12 +46,12 @@ export class GameScene extends Phaser.Scene {
     this.platforms.push(firstPlatform);
   }
 
-  thereIsSpaceBetweenPlatforms() {
+  thereIsSpaceBetweenPlatforms(minimumDistance) {
     const lastPlatform = this.platforms[this.platforms.length - 1];
     let lastBlock = lastPlatform.getChildren();
     lastBlock = lastBlock[lastBlock.length - 1];
 
-    return lastBlock.x <= 648;
+    return lastBlock.x <= 800 - minimumDistance;
   }
 
   buildPlatform(positionX, positionY, blocksCount=1) {
@@ -107,7 +107,7 @@ export class GameScene extends Phaser.Scene {
       this.platformToUpdate = null;
     }
 
-    if (this.thereIsSpaceBetweenPlatforms()) {
+    if (this.thereIsSpaceBetweenPlatforms(152)) {
       this.platforms.push(this.buildPlatform(
         832,
         300 + Phaser.Math.Between(-100, 200),
