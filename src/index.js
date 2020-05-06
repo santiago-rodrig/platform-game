@@ -11,7 +11,10 @@ class Game extends Phaser.Game {
 
     this.globals = {
       music: true,
-      musicPlaying: false
+      musicPlaying: false,
+      gameSpeed: 200,
+      jewelChance: 25,
+      obstacleChance: 30
     };
 
     this.scene.add('BootScene', BootScene);

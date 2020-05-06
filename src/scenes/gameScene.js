@@ -9,6 +9,31 @@ export class GameScene extends Phaser.Scene {
     this.setObstacles();
     this.setPlatforms();
     this.setPlayer();
+    this.setDifficulty();
+  }
+
+  setDifficulty() {
+    this.time.delayedCall(
+      60000,
+      function () {
+        this.sys.game.globals.gameSpeed += 100;
+        this.sys.game.globals.jewelChance += 10;
+        this.sys.game.globals.obstacleChance += 20;
+      },
+      null,
+      this
+    );
+
+    this.time.delayedCall(
+      120000,
+      function () {
+        this.sys.game.globals.gameSpeed += 100;
+        this.sys.game.globals.jewelChance += 10;
+        this.sys.game.globals.obstacleChance += 20;
+      },
+      null,
+      this
+    );
   }
 
   setBackground() {
@@ -95,7 +120,11 @@ export class GameScene extends Phaser.Scene {
     );
 
     this.obstacles.add(obstacle);
-    this.obstacles.getLast(true).setVelocityX(-200);
+
+    this.obstacles.getLast(true).setVelocityX(
+      this.sys.game.globals.gameSpeed * -1
+    );
+
     this.obstacles.getLast(true).setSize(60, 30);
 
     this.physics.add.overlap(
@@ -127,7 +156,11 @@ export class GameScene extends Phaser.Scene {
     );
 
     this.jewels.add(jewel);
-    this.jewels.getLast(true).setVelocityX(-200);
+
+    this.jewels.getLast(true).setVelocityX(
+      this.sys.game.globals.gameSpeed * -1
+    );
+
     this.jewels.getLast(true).setSize(40, 40);
 
     this.physics.add.overlap(
@@ -142,7 +175,7 @@ export class GameScene extends Phaser.Scene {
 
   getJewelChance() {
     // 25% of chances to ge a jewel
-    return Phaser.Math.Between(1, 100) <= 25;
+    return Phaser.Math.Between(1, 100) <= this.sys.game.globals.jewelChance;
   }
 
   setUI() {
@@ -167,7 +200,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   getObstacleChance() {
-    return Phaser.Math.Between(1, 100) <= 30;
+    return Phaser.Math.Between(1, 100) <= this.sys.game.globals.obstacleChance;
   }
 
   buildPlatform(positionX, positionY, blocksCount=1) {
@@ -196,9 +229,9 @@ export class GameScene extends Phaser.Scene {
     }
 
     platform.children.iterate(function (block) {
-      block.setVelocityX(-200);
+      block.setVelocityX(this.sys.game.globals.gameSpeed * -1);
       block.setImmovable(true);
-    });
+    }, this);
 
     return platform;
   }
