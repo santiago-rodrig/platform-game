@@ -80,7 +80,7 @@ export class GameScene extends Phaser.Scene {
 
     this.obstacles.add(obstacle);
     this.obstacles.getLast(true).setVelocityX(-200);
-    this.obstacles.getLast(true).setSize(70, 40);
+    this.obstacles.getLast(true).setSize(60, 30);
 
     this.physics.add.overlap(
       this.player, this.obstacles.getLast(true), this.gameOver, null, this
