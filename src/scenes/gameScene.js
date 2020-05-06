@@ -5,6 +5,7 @@ export class GameScene extends Phaser.Scene {
 
   create() {
     this.setBackground();
+    this.setJewels();
     this.setPlatforms();
     this.setPlayer();
   }
@@ -35,8 +36,6 @@ export class GameScene extends Phaser.Scene {
     this.player = this.physics.add.sprite(200, height / 2 + 120, 'player');
     this.player.setFrame(0);
     this.player.setGravityY(800);
-    this.player.setVelocityX(200);
-    this.player.setFrictionX(0);
     this.player.jumpsCount = 2;
     this.player.isJumping = false;
 
@@ -65,17 +64,32 @@ export class GameScene extends Phaser.Scene {
   }
 
   setJewels() {
+    this.jewels = this.physics.add.group();
+    this.jewelsToRemove = [];
+  }
+
+  buildJewel(positionX, positionY) {
+    const jewel = this.physics.add.sprite(positionX, positionY, 'objects', 36);
+
+    this.jewels.add(jewel);
+    this.jewels.getLast(true).setVelocityX(-200);
+  }
+
+  getJewelChance() {
+    // 25% of chances to ge a jewel
+    return Phaser.Math.Between(1, 100) <= 25;
   }
 
   setUI() {
   }
 
   setPlatforms() {
+    this.platforms = [];
+
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
     const firstPlatform = this.buildPlatform(32, height / 2 + 200, 10);
 
-    this.platforms = [];
     this.platforms.push(firstPlatform);
   }
 
@@ -88,7 +102,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   buildPlatform(positionX, positionY, blocksCount=1) {
-    const platform = this.physics.add.staticGroup();
+    const platform = this.physics.add.group();
     let block;
 
     for (let i = 0, offsetX = positionX;
@@ -97,6 +111,15 @@ export class GameScene extends Phaser.Scene {
     ) {
       block = this.physics.add.sprite(offsetX, positionY, 'objects', 59);
       platform.add(block);
+    }
+
+    if (this.platforms.length >= 1) {
+      const platformWidth = blocksCount * 64;
+      const midPoint = Math.round(platformWidth / 2);
+
+      if (this.getJewelChance()) {
+        this.buildJewel(800 + midPoint, positionY - 64);
+      }
     }
 
     platform.children.iterate(function (block) {
@@ -163,7 +186,6 @@ export class GameScene extends Phaser.Scene {
     if (this.cursors.up.isDown) {
       if (this.player.jumpsAvailable() && !this.player.isJumping) {
         this.player.setVelocityY(-400);
-        this.player.setVelocityX(0);
         this.player.jumpsCount -= 1;
         this.player.isJumping = true;
 
@@ -175,8 +197,18 @@ export class GameScene extends Phaser.Scene {
       this.player.setFrame(1);
     } else if (this.player.body.touching.down) {
       this.player.jumpsCount = 2;
-      this.player.setVelocityX(200);
-      this.player.x = 200;
     }
+
+    this.jewels.children.iterate(function (jewel) {
+      if (jewel.x <= -48) {
+        this.jewelsToRemove.push(jewel);
+      }
+    }.bind(this));
+
+    this.jewelsToRemove.forEach(function (jewel) {
+      this.jewels.remove(jewel, true, true);
+    }, this);
+
+    this.jewelsToRemove = [];
   }
 }
