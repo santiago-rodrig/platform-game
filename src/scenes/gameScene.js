@@ -47,6 +47,12 @@ export class GameScene extends Phaser.Scene {
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
+    this.footstepSound = this.sound.add('footstep', {
+      volume: 0.75,
+      loop: true,
+      rate: 0.5
+    });
+
     this.anims.create({
       key: 'run',
       frames: this.anims.generateFrameNumbers('player', { start: 2, end: 3 }),
@@ -251,8 +257,13 @@ export class GameScene extends Phaser.Scene {
         }
   
         this.player.setFrame(1);
+        this.footstepSound.stop();
       } else if (this.player.body.touching.down) {
         this.player.jumpsCount = 2;
+
+        if (!this.footstepSound.isPlaying) {
+          this.footstepSound.play();
+        }
       }
   
       this.obstacles.children.iterate(function (obstacle) {
