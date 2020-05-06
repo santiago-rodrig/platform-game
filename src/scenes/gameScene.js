@@ -80,6 +80,16 @@ export class GameScene extends Phaser.Scene {
 
     this.obstacles.add(obstacle);
     this.obstacles.getLast(true).setVelocityX(-200);
+
+    this.physics.add.overlap(
+      this.player, this.obstacles.getLast(true), this.gameOver, null, this
+    );
+  }
+
+  gameOver(player, obstacle) {
+    this.physics.world.pause();
+    this.gameIsOver = true;
+    this.player.setTint(0xff0000);
   }
 
   setJewels() {
@@ -170,96 +180,103 @@ export class GameScene extends Phaser.Scene {
   }
 
   update() {
-    this.backgroundsGroup.getChildren().forEach(function (background) {
-      if (background.x <= -512) {
-        const firstBackground = this.backgroundsGroup.children.entries[0];
-        const lastBackground = this.backgroundsGroup.children.entries[1];
-
-        if (firstBackground === background) {
-          background.x = lastBackground.x + 1024;
-        } else {
-          background.x = firstBackground.x + 1024;
+    if (!this.gameIsOver) {
+      this.backgroundsGroup.getChildren().forEach(function (background) {
+        if (background.x <= -512) {
+          const firstBackground = this.backgroundsGroup.children.entries[0];
+          const lastBackground = this.backgroundsGroup.children.entries[1];
+  
+          if (firstBackground === background) {
+            background.x = lastBackground.x + 1024;
+          } else {
+            background.x = firstBackground.x + 1024;
+          }
         }
+      }.bind(this));
+  
+      this.platforms.forEach(function (platform, index) {
+        const blocks = platform.getChildren();
+        const lastBlock = blocks[blocks.length - 1];
+  
+        if (lastBlock.x <= 32) {
+          this.platformToUpdate = index;
+        }
+      }.bind(this));
+  
+      if (this.platformToUpdate) {
+        this.platforms = this.platforms.slice(
+          0,
+          this.platformToUpdate
+        ).concat(
+          this.platforms.slice(this.platformToUpdate + 1)
+        );
+  
+        this.platformToUpdate = null;
       }
-    }.bind(this));
-
-    this.platforms.forEach(function (platform, index) {
-      const blocks = platform.getChildren();
-      const lastBlock = blocks[blocks.length - 1];
-
-      if (lastBlock.x <= 32) {
-        this.platformToUpdate = index;
+  
+      if (this.thereIsSpaceBetweenPlatforms(Phaser.Math.Between(165, 215))) {
+        this.newPlatform = this.buildPlatform(
+          832,
+          400 + Phaser.Math.Between(-50, 50),
+          Phaser.Math.Between(2, 5)
+        );
+  
+        this.platforms.push(this.newPlatform);
+        this.setPlatformCollider(this.newPlatform);
       }
-    }.bind(this));
-
-    if (this.platformToUpdate) {
-      this.platforms = this.platforms.slice(
-        0,
-        this.platformToUpdate
-      ).concat(
-        this.platforms.slice(this.platformToUpdate + 1)
-      );
-
-      this.platformToUpdate = null;
-    }
-
-    if (this.thereIsSpaceBetweenPlatforms(Phaser.Math.Between(165, 215))) {
-      this.newPlatform = this.buildPlatform(
-        832,
-        400 + Phaser.Math.Between(-50, 50),
-        Phaser.Math.Between(2, 5)
-      );
-
-      this.platforms.push(this.newPlatform);
-      this.setPlatformCollider(this.newPlatform);
-    }
-
-    if (this.player.body.touching.down) {
-      if (!this.player.anims.isPlaying) {
-        this.player.anims.play('run');
+  
+      if (this.player.body.touching.down) {
+        if (!this.player.anims.isPlaying) {
+          this.player.anims.play('run');
+        }
+      } else {
+        this.player.anims.stop();
       }
+  
+      if (this.cursors.up.isDown) {
+        if (this.player.jumpsAvailable() && !this.player.isJumping) {
+          this.player.setVelocityY(-400);
+          this.player.jumpsCount -= 1;
+          this.player.isJumping = true;
+  
+          this.time.delayedCall(500, function () {
+            this.player.isJumping = false;
+          }.bind(this));
+        }
+  
+        this.player.setFrame(1);
+      } else if (this.player.body.touching.down) {
+        this.player.jumpsCount = 2;
+      }
+  
+      this.obstacles.children.iterate(function (obstacle) {
+        if (obstacle.x <= -32) {
+          this.obstaclesToRemove.push(obstacle);
+        }
+      }, this);
+  
+      this.obstaclesToRemove.forEach(function (obstacle) {
+        this.obstacles.remove(obstacle, true, true);
+      }, this);
+  
+      this.obstaclesToRemove = [];
+  
+      this.jewels.children.iterate(function (jewel) {
+        if (jewel.x <= -32) {
+          this.jewelsToRemove.push(jewel);
+        }
+      }.bind(this));
+  
+      this.jewelsToRemove.forEach(function (jewel) {
+        this.jewels.remove(jewel, true, true);
+      }, this);
+  
+      this.jewelsToRemove = [];
     } else {
-      this.player.anims.stop();
+      if (this.player.anims.isPlaying) {
+        this.player.anims.stop()
+        this.player.setFrame(6);
+      }
     }
-
-    if (this.cursors.up.isDown) {
-      if (this.player.jumpsAvailable() && !this.player.isJumping) {
-        this.player.setVelocityY(-400);
-        this.player.jumpsCount -= 1;
-        this.player.isJumping = true;
-
-        this.time.delayedCall(500, function () {
-          this.player.isJumping = false;
-        }.bind(this));
-      }
-
-      this.player.setFrame(1);
-    } else if (this.player.body.touching.down) {
-      this.player.jumpsCount = 2;
-    }
-
-    this.obstacles.children.iterate(function (obstacle) {
-      if (obstacle.x <= -32) {
-        this.obstaclesToRemove.push(obstacle);
-      }
-    }, this);
-
-    this.obstaclesToRemove.forEach(function (obstacle) {
-      this.obstacles.remove(obstacle, true, true);
-    }, this);
-
-    this.obstaclesToRemove = [];
-
-    this.jewels.children.iterate(function (jewel) {
-      if (jewel.x <= -32) {
-        this.jewelsToRemove.push(jewel);
-      }
-    }.bind(this));
-
-    this.jewelsToRemove.forEach(function (jewel) {
-      this.jewels.remove(jewel, true, true);
-    }, this);
-
-    this.jewelsToRemove = [];
   }
 }
