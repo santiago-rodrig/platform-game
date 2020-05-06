@@ -79,6 +79,11 @@ export class GameScene extends Phaser.Scene {
   setObstacles() {
     this.obstacles = this.physics.add.group();
     this.obstaclesToRemove = [];
+
+    this.gameOverSound = this.sound.add('gameOver', {
+      volume: 1,
+      loop: false
+    });
   }
 
   buildObstacle(height, platformLength) {
@@ -101,6 +106,8 @@ export class GameScene extends Phaser.Scene {
   gameOver(player, obstacle) {
     this.physics.world.pause();
     this.gameIsOver = true;
+    this.sound.stopAll();
+    this.gameOverSound.play();
     this.player.setTint(0xff0000);
   }
 
