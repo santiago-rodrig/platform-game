@@ -53,6 +53,11 @@ export class GameScene extends Phaser.Scene {
       rate: 0.5
     });
 
+    this.jumpSound = this.sound.add('jump', {
+      volume: 0.75,
+      loop: false
+    });
+
     this.anims.create({
       key: 'run',
       frames: this.anims.generateFrameNumbers('player', { start: 2, end: 3 }),
@@ -250,6 +255,7 @@ export class GameScene extends Phaser.Scene {
           this.player.setVelocityY(-400);
           this.player.jumpsCount -= 1;
           this.player.isJumping = true;
+          this.jumpSound.play();
   
           this.time.delayedCall(500, function () {
             this.player.isJumping = false;
