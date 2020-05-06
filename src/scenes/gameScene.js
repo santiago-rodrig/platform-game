@@ -6,6 +6,7 @@ export class GameScene extends Phaser.Scene {
   create() {
     this.setBackground();
     this.setJewels();
+    this.setObstacles();
     this.setPlatforms();
     this.setPlayer();
   }
@@ -63,6 +64,23 @@ export class GameScene extends Phaser.Scene {
     }.bind(this));
   }
 
+  setObstacles() {
+    this.obstacles = this.physics.add.group();
+    this.obstaclesToRemove = [];
+  }
+
+  buildObstacle(height, platformLength) {
+    const obstacle = this.physics.add.sprite(
+      768 + Phaser.Math.Between(2, platformLength) * 64,
+      height - 64,
+      'objects',
+      70
+    );
+
+    this.obstacles.add(obstacle);
+    this.obstacles.getLast(true).setVelocityX(-200);
+  }
+
   setJewels() {
     this.jewels = this.physics.add.group();
     this.jewelsToRemove = [];
@@ -111,6 +129,10 @@ export class GameScene extends Phaser.Scene {
     return lastBlock.x <= 800 - minimumDistance;
   }
 
+  getObstacleChance() {
+    return Phaser.Math.Between(1, 100) <= 30;
+  }
+
   buildPlatform(positionX, positionY, blocksCount=1) {
     const platform = this.physics.add.group();
     let block;
@@ -129,6 +151,10 @@ export class GameScene extends Phaser.Scene {
 
       if (this.getJewelChance()) {
         this.buildJewel(800 + midPoint, positionY - 64);
+      }
+
+      if (this.getObstacleChance()) {
+        this.buildObstacle(positionY, platform.getLength());
       }
     }
 
@@ -209,8 +235,20 @@ export class GameScene extends Phaser.Scene {
       this.player.jumpsCount = 2;
     }
 
+    this.obstacles.children.iterate(function (obstacle) {
+      if (obstacle.x <= -32) {
+        this.obstaclesToRemove.push(obstacle);
+      }
+    }, this);
+
+    this.obstaclesToRemove.forEach(function (obstacle) {
+      this.obstacles.remove(obstacle, true, true);
+    }, this);
+
+    this.obstaclesToRemove = [];
+
     this.jewels.children.iterate(function (jewel) {
-      if (jewel.x <= -48) {
+      if (jewel.x <= -32) {
         this.jewelsToRemove.push(jewel);
       }
     }.bind(this));
