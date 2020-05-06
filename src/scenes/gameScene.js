@@ -32,10 +32,18 @@ export class GameScene extends Phaser.Scene {
   setPlayer() {
     const height = this.cameras.main.height;
 
-    this.player = this.physics.add.sprite(100, height / 2 + 120, 'player');
+    this.player = this.physics.add.sprite(200, height / 2 + 120, 'player');
     this.player.setFrame(0);
-    this.player.setGravityY(900);
-    this.player.setVelocityX(60);
+    this.player.setGravityY(800);
+    this.player.setVelocityX(200);
+    this.player.setFrictionX(0);
+    this.player.jumpsCount = 2;
+    this.player.isJumping = false;
+
+    this.player.jumpsAvailable = function () {
+      return this.jumpsCount >= 1;
+    }
+
     this.cursors = this.input.keyboard.createCursorKeys();
 
     this.anims.create({
@@ -92,7 +100,7 @@ export class GameScene extends Phaser.Scene {
     }
 
     platform.children.iterate(function (block) {
-      block.setVelocityX(-118);
+      block.setVelocityX(-200);
       block.setImmovable(true);
     });
 
@@ -133,10 +141,10 @@ export class GameScene extends Phaser.Scene {
       this.platformToUpdate = null;
     }
 
-    if (this.thereIsSpaceBetweenPlatforms(152)) {
+    if (this.thereIsSpaceBetweenPlatforms(Phaser.Math.Between(165, 215))) {
       this.newPlatform = this.buildPlatform(
         832,
-        300 + Phaser.Math.Between(-100, 200),
+        400 + Phaser.Math.Between(-50, 50),
         Phaser.Math.Between(2, 5)
       );
 
@@ -152,11 +160,23 @@ export class GameScene extends Phaser.Scene {
       this.player.anims.stop();
     }
 
-    if (this.cursors.up.isDown && this.player.body.touching.down) {
-      this.player.setVelocityY(-500);
-      this.player.setVelocityX(0);
+    if (this.cursors.up.isDown) {
+      if (this.player.jumpsAvailable() && !this.player.isJumping) {
+        this.player.setVelocityY(-400);
+        this.player.setVelocityX(0);
+        this.player.jumpsCount -= 1;
+        this.player.isJumping = true;
+
+        this.time.delayedCall(500, function () {
+          this.player.isJumping = false;
+        }.bind(this));
+      }
+
+      this.player.setFrame(1);
     } else if (this.player.body.touching.down) {
-      this.player.setVelocityX(118);
+      this.player.jumpsCount = 2;
+      this.player.setVelocityX(200);
+      this.player.x = 200;
     }
   }
 }
