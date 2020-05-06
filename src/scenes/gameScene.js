@@ -44,20 +44,6 @@ export class GameScene extends Phaser.Scene {
 
     this.platforms = [];
     this.platforms.push(firstPlatform);
-
-    this.time.addEvent({
-      delay: 1000,
-      loop: true,
-      callback: function () {
-        if (this.thereIsSpaceBetweenPlatforms()) {
-          this.platforms.push(this.buildPlatform(
-            832,
-            300 + Phaser.Math.Between(-100, 200),
-            Phaser.Math.Between(2, 5)
-          ));
-        }
-      }.bind(this)
-    });
   }
 
   thereIsSpaceBetweenPlatforms() {
@@ -119,6 +105,14 @@ export class GameScene extends Phaser.Scene {
       );
 
       this.platformToUpdate = null;
+    }
+
+    if (this.thereIsSpaceBetweenPlatforms()) {
+      this.platforms.push(this.buildPlatform(
+        832,
+        300 + Phaser.Math.Between(-100, 200),
+        Phaser.Math.Between(2, 5)
+      ));
     }
   }
 }
