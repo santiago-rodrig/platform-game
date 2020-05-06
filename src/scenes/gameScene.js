@@ -35,6 +35,7 @@ export class GameScene extends Phaser.Scene {
     this.player = this.physics.add.sprite(100, height / 2 + 120, 'player');
     this.player.setFrame(0);
     this.player.setGravityY(900);
+    this.player.setVelocityX(60);
 
     this.anims.create({
       key: 'run',
