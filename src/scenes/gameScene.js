@@ -36,6 +36,7 @@ export class GameScene extends Phaser.Scene {
     this.player.setFrame(0);
     this.player.setGravityY(900);
     this.player.setVelocityX(60);
+    this.cursors = this.input.keyboard.createCursorKeys();
 
     this.anims.create({
       key: 'run',
@@ -91,7 +92,7 @@ export class GameScene extends Phaser.Scene {
     }
 
     platform.children.iterate(function (block) {
-      block.setVelocityX(-60);
+      block.setVelocityX(-118);
       block.setImmovable(true);
     });
 
@@ -141,6 +142,21 @@ export class GameScene extends Phaser.Scene {
 
       this.platforms.push(this.newPlatform);
       this.setPlatformCollider(this.newPlatform);
+    }
+
+    if (this.player.body.touching.down) {
+      if (!this.player.anims.isPlaying) {
+        this.player.anims.play('run');
+      }
+    } else {
+      this.player.anims.stop();
+    }
+
+    if (this.cursors.up.isDown && this.player.body.touching.down) {
+      this.player.setVelocityY(-500);
+      this.player.setVelocityX(0);
+    } else if (this.player.body.touching.down) {
+      this.player.setVelocityX(118);
     }
   }
 }
