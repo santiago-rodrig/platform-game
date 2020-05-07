@@ -1,4 +1,5 @@
 import { RestartButton } from '../objects/restartButton';
+import { Button } from '../objects/button';
 
 export class GameScene extends Phaser.Scene {
   constructor() {
@@ -155,6 +156,10 @@ export class GameScene extends Phaser.Scene {
     );
   }
 
+  init() {
+    this.restartGame();
+  }
+
   restartGame() {
     this.gameIsOver = false;
     this.sys.game.globals.gameSpeed = 200;
@@ -195,6 +200,14 @@ export class GameScene extends Phaser.Scene {
       width / 2,
       height / 2 + 100,
       'Again?'
+    );
+
+    new Button(
+      this,
+      width / 2,
+      height / 2 + 200,
+      'Menu',
+      'TitleScene'
     );
 
     this.scoreBox.setDepth(2);
