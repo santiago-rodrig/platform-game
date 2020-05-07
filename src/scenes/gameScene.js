@@ -127,7 +127,7 @@ export class GameScene extends Phaser.Scene {
       this.sys.game.globals.gameSpeed * -1
     );
 
-    this.obstacles.getLast(true).setSize(60, 30);
+    this.obstacles.getLast(true).setSize(30, 10);
 
     this.physics.add.overlap(
       this.player, this.obstacles.getLast(true), this.gameOver, null, this
@@ -136,6 +136,9 @@ export class GameScene extends Phaser.Scene {
 
   restartGame() {
     this.gameIsOver = false;
+    this.sys.game.globals.gameSpeed = 200;
+    this.sys.game.globals.jewelChance = 25;
+    this.sys.game.globals.obstacleChance = 30;
   }
 
   gameOver(player, obstacle) {
