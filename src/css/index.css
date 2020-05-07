@@ -6,8 +6,11 @@ html {
   box-sizing: inherit;
 }
 
-body {
-  background-color: red;
+/* only one row is present */
+
+.row {
+  margin-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 #game-wrapper {
