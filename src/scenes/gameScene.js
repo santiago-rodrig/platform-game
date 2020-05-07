@@ -1,3 +1,5 @@
+import { RestartButton } from '../objects/restartButton';
+
 export class GameScene extends Phaser.Scene {
   constructor() {
     super('GameScene');
@@ -132,12 +134,38 @@ export class GameScene extends Phaser.Scene {
     );
   }
 
+  restartGame() {
+    this.gameIsOver = false;
+  }
+
   gameOver(player, obstacle) {
     this.physics.world.pause();
     this.gameIsOver = true;
     this.sound.stopAll();
     this.gameOverSound.play();
-    this.player.setTint(0xff0000);
+    player.setTint(0xff0000);
+
+    const width = this.cameras.main.width;
+    const height = this.cameras.main.height;
+    const curtain = this.add.graphics();
+
+    const gameOverText = this.add.text(
+      width / 2,
+      height / 2,
+      'GAME OVER',
+      { font: '30px monospace', fill: '#ffffff' }
+    );
+
+    curtain.fillStyle(0x222222, 0.8);
+    curtain.fillRect(0, 0, width, height);
+    gameOverText.setOrigin(0.5, 0.5);
+
+    new RestartButton(
+      this,
+      width / 2,
+      height / 2 + 100,
+      'Again?'
+    );
   }
 
   setJewels() {
@@ -238,6 +266,10 @@ export class GameScene extends Phaser.Scene {
 
   update() {
     if (!this.gameIsOver) {
+      if (this.player.y > this.game.config.height) {
+        this.gameOver(this.player);
+      }
+
       this.backgroundsGroup.getChildren().forEach(function (background) {
         if (background.x <= -512) {
           const firstBackground = this.backgroundsGroup.children.entries[0];
