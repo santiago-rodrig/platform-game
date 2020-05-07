@@ -246,10 +246,35 @@ export class GameScene extends Phaser.Scene {
   }
 
   collectJewel(player, jewel) {
-    jewel.destroy();
+    this.jewelScoreText = this.add.text(
+      jewel.x,
+      jewel.y,
+      '+' + this.sys.game.globals.jewelScore,
+      {
+        font: '14px monospace',
+        fill: '#000000'
+      }
+    );
+
+    const jewelTween = this.add.tween({
+      targets: this.jewelScoreText,
+      y: jewel.y - 50,
+      duration: 1000,
+      ease: 'Power1',
+      onComplete: function () {
+        this.jewelScoreText.destroy();
+      },
+      onCompleteScope: this
+    });
+
+    this.time.delayedCall(2000, function () {
+      jewelTween.remove();
+    }, null, this);
+
     this.jewelSound.play();
     this.playerScore += this.sys.game.globals.jewelScore;
     this.scoreText.setText('SCORE: ' + this.playerScore);
+    jewel.destroy();
   }
 
   getJewelChance() {
