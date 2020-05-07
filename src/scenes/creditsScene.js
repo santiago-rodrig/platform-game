@@ -1,4 +1,4 @@
-export class CreditsScene extends Phaser.Scene {
+export default class CreditsScene extends Phaser.Scene {
   constructor() {
     super('CreditsScene');
   }

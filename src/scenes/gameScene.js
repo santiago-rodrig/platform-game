@@ -1,7 +1,7 @@
 import { RestartButton } from '../objects/restartButton';
 import { Button } from '../objects/button';
 
-export class GameScene extends Phaser.Scene {
+export default class GameScene extends Phaser.Scene {
   constructor() {
     super('GameScene');
   }

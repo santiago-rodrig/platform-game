@@ -1,3 +1,10 @@
+import BootScene from './scenes/bootScene';
+import PreloaderScene from './scenes/preloaderScene';
+import TitleScene from './scenes/titleScene';
+import OptionsScene from './scenes/optionsScene';
+import CreditsScene from './scenes/creditsScene';
+import GameScene from './scenes/gameScene';
+
 export default class Game extends Phaser.Game {
   constructor(config, playerName) {
     super(config);

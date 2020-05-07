@@ -7,7 +7,9 @@ import { GameScene } from './scenes/gameScene';
 import 'materialize-css/dist/js/materialize';
 import 'materialize-css/dist/css/materialize.css';
 import './css/index.css';
-import GameManager from './gameManager';
+import './DOMManager';
+import DOMManager from './DOMManager';
 
 window.addEventListener('load', function () {
+  DOMManager.renderGame();
 });
