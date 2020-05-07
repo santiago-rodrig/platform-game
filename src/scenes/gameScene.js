@@ -441,11 +441,11 @@ export class GameScene extends Phaser.Scene {
     }
 
     if (this.platforms.length >= 1) {
-      const platformWidth = blocksCount * 64;
-      const midPoint = Math.round(platformWidth / 2);
-
       if (this.getJewelChance()) {
-        this.buildJewel(800 + midPoint, positionY);
+        this.buildJewel(
+          768 + Phaser.Math.Between(1, blocksCount) * 64,
+          positionY
+        );
       }
 
       if (this.getObstacleChance()) {
