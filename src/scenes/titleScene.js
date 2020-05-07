@@ -21,6 +21,10 @@ export class TitleScene extends Phaser.Scene {
     if (this.sys.game.globals.music && !this.sys.game.globals.musicPlaying) {
       this.sys.game.globals.backgroundMusic.play();
       this.sys.game.globals.musicPlaying = true;
+    } else if (this.sys.game.globals.musicPlaying) {
+      if (!this.sys.game.globals.backgroundMusic.isPlaying) {
+        this.sys.game.globals.backgroundMusic.play()
+      }
     }
 
     this.gameButton = new Button(this,

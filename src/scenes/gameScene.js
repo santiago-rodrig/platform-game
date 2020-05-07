@@ -216,7 +216,7 @@ export class GameScene extends Phaser.Scene {
   gameOver(player, obstacle) {
     this.physics.world.pause();
     this.gameIsOver = true;
-    this.sound.stopAll();
+    this.sound.pauseAll();
     this.scoreIncrementTimer.remove();
     this.difficultyTimerOne.remove();
     this.difficultyTimerTwo.remove();
