@@ -53,9 +53,9 @@ export class GameScene extends Phaser.Scene {
         this.sys.game.globals.playerGravity += 400;
         this.sys.game.globals.jewelFrame = 37;
         this.sys.game.globals.jewelScore = 100;
-        this.sys.game.globals.scoreRate *= 2;
-        this.sys.game.globals.playerJumps += 1;
         this.sys.game.globals.blocksAmount += 1;
+        this.incrementScoreRate();
+        this.incrementJumpsCount();
         this.updatePlayer();
         this.updateJewels();
         this.updatePlatforms();
@@ -75,9 +75,9 @@ export class GameScene extends Phaser.Scene {
         this.sys.game.globals.playerGravity += 300;
         this.sys.game.globals.jewelFrame = 38;
         this.sys.game.globals.jewelScore = 200;
-        this.sys.game.globals.scoreRate *= 2;
-        this.sys.game.globals.playerJumps += 1;
         this.sys.game.globals.blocksAmount += 1;
+        this.incrementScoreRate();
+        this.incrementJumpsCount();
         this.updatePlayer();
         this.updateJewels();
         this.updatePlatforms();
@@ -86,6 +86,64 @@ export class GameScene extends Phaser.Scene {
       null,
       this
     );
+  }
+
+  incrementJumpsCount() {
+    const height = this.cameras.main.height;
+    const width = this.cameras.main.width;
+
+    const jumpsIncreasedText = this.add.text(
+      width / 2,
+      height - 100,
+      'JUMPS INCREASED BY 1!',
+      {
+        font: '20px monospace',
+        fill: '#000000'
+      }
+    );
+
+    jumpsIncreasedText.setOrigin(0.5, 0.5);
+
+    this.add.tween({
+      targets: jumpsIncreasedText,
+      y: jumpsIncreasedText.y - 80,
+      duration: 3000,
+      onComplete: function () {
+        this.remove();
+        jumpsIncreasedText.destroy();
+      }
+    });
+
+    this.sys.game.globals.playerJumps += 1;
+  }
+
+  incrementScoreRate() {
+    const width = this.cameras.main.width;
+    const height = this.cameras.main.height;
+
+    const scoreRateIncreasedText = this.add.text(
+      width / 2,
+      height - 50,
+      'POINTS PER SECOND DUPLICATED!',
+      {
+        font: '20px monospace',
+        fill: '#000000'
+      }
+    );
+
+    scoreRateIncreasedText.setOrigin(0.5, 0.5);
+
+    this.add.tween({
+      targets: scoreRateIncreasedText,
+      y: scoreRateIncreasedText.y - 80,
+      duration: 3000,
+      onComplete: function () {
+        this.remove();
+        scoreRateIncreasedText.destroy();
+      }
+    });
+
+    this.sys.game.globals.scoreRate *= 2;
   }
 
   setBackground() {
