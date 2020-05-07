@@ -18,31 +18,66 @@ export class GameScene extends Phaser.Scene {
 
   updatePlayer() {
     this.player.setGravityY(this.sys.game.globals.playerGravity);
+    this.player.jumpsCount = this.sys.game.globals.playerJumps;
+  }
+
+  updateJewels() {
+    this.jewels.children.iterate(function (jewel) {
+      jewel.setFrame(this.sys.game.globals.jewelFrame);
+      jewel.setVelocityX(this.sys.game.globals.gameSpeed * -1);
+    }, this);
+  }
+
+  updatePlatforms() {
+    this.platforms.forEach(function (platform) {
+      platform.children.iterate(function (block) {
+        block.setVelocityX(this.sys.game.globals.gameSpeed * -1);
+      }, this);
+    }, this);
+  }
+
+  updateObstacles() {
+    this.obstacles.children.iterate(function (obstacle) {
+      obstacle.setVelocityX(this.sys.game.globals.gameSpeed * -1);
+    }, this);
   }
 
   setDifficulty() {
-    this.time.delayedCall(
-      60000,
+    this.difficultyTimerOne = this.time.delayedCall(
+      10000,
       function () {
         this.sys.game.globals.gameSpeed += 100;
         this.sys.game.globals.jewelChance += 10;
         this.sys.game.globals.obstacleChance += 20;
-        this.sys.game.globals.playerGravity += 150;
+        this.sys.game.globals.playerJumpForce += 70;
+        this.sys.game.globals.playerGravity += 400;
+        this.sys.game.globals.jewelFrame = 37;
+        this.sys.game.globals.jewelScore = 100;
+        this.sys.game.globals.playerJumps += 1;
         this.updatePlayer();
+        this.updateJewels();
+        this.updatePlatforms();
+        this.updateObstacles();
       },
       null,
       this
     );
 
-    this.time.delayedCall(
-      120000,
+    this.difficultyTimerTwo = this.time.delayedCall(
+      20000,
       function () {
         this.sys.game.globals.gameSpeed += 100;
-        this.sys.game.globals.jewelChance += 10;
-        this.sys.game.globals.obstacleChance += 20;
-        this.sys.game.globals.playerGravity += 100;
-        this.sys.game.globals.playerGravity += 150;
+        this.sys.game.globals.jewelChance += 20;
+        this.sys.game.globals.obstacleChance += 40;
+        this.sys.game.globals.playerJumpForce += 50;
+        this.sys.game.globals.playerGravity += 300;
+        this.sys.game.globals.jewelFrame = 38;
+        this.sys.game.globals.jewelScore = 200;
+        this.sys.game.globals.playerJumps += 1;
         this.updatePlayer();
+        this.updateJewels();
+        this.updatePlatforms();
+        this.updateObstacles();
       },
       null,
       this
@@ -75,7 +110,7 @@ export class GameScene extends Phaser.Scene {
     this.player = this.physics.add.sprite(200, height / 2 + 120, 'player');
     this.player.setFrame(0);
     this.player.setGravityY(this.sys.game.globals.playerGravity);
-    this.player.jumpsCount = 2;
+    this.player.jumpsCount = this.sys.game.globals.playerJumps;
     this.player.setSize(54, 96);
     this.player.isJumping = false;
     this.playerScore = 0;
@@ -170,6 +205,8 @@ export class GameScene extends Phaser.Scene {
     this.sys.game.globals.scoreRate = 10;
     this.sys.game.globals.jewelFrame = 36;
     this.sys.game.globals.jewelScore = 50;
+    this.sys.game.globals.playerJumpForce = 450;
+    this.sys.game.globals.playerJumps = 2;
     
     if (this.sys.game.globals.musicPlaying) {
       this.sys.game.globals.backgroundMusic.play();
@@ -181,6 +218,8 @@ export class GameScene extends Phaser.Scene {
     this.gameIsOver = true;
     this.sound.stopAll();
     this.scoreIncrementTimer.remove();
+    this.difficultyTimerOne.remove();
+    this.difficultyTimerTwo.remove();
     this.gameOverSound.play();
     player.setTint(0xff0000);
 
@@ -246,7 +285,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   collectJewel(player, jewel) {
-    this.jewelScoreText = this.add.text(
+    const jewelScoreText = this.add.text(
       jewel.x,
       jewel.y,
       '+' + this.sys.game.globals.jewelScore,
@@ -256,22 +295,19 @@ export class GameScene extends Phaser.Scene {
       }
     );
 
-    const jewelTween = this.add.tween({
-      targets: this.jewelScoreText,
+    this.add.tween({
+      targets: jewelScoreText,
       y: jewel.y - 50,
       duration: 1000,
       ease: 'Power1',
       onComplete: function () {
-        this.jewelScoreText.destroy();
-      },
-      onCompleteScope: this
+        this.remove();
+        jewelScoreText.destroy();
+      }
     });
 
-    this.time.delayedCall(2000, function () {
-      jewelTween.remove();
-    }, null, this);
-
     this.jewelSound.play();
+
     this.playerScore += this.sys.game.globals.jewelScore;
     this.scoreText.setText('SCORE: ' + this.playerScore);
     jewel.destroy();
@@ -434,7 +470,7 @@ export class GameScene extends Phaser.Scene {
         this.player.setFrame(1);
         this.footstepSound.stop();
       } else if (this.player.body.touching.down) {
-        this.player.jumpsCount = 2;
+        this.player.jumpsCount = this.sys.game.globals.playerJumps;
 
         if (!this.footstepSound.isPlaying) {
           this.footstepSound.play();

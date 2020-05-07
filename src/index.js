@@ -19,7 +19,8 @@ class Game extends Phaser.Game {
       playerJumpForce: 450,
       scoreRate: 10,
       jewelFrame: 36,
-      jewelScore: 50
+      jewelScore: 50,
+      playerJumps: 2
     };
 
     this.scene.add('BootScene', BootScene);
