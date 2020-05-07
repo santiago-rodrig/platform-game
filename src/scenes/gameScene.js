@@ -44,7 +44,7 @@ export class GameScene extends Phaser.Scene {
 
   setDifficulty() {
     this.difficultyTimerOne = this.time.delayedCall(
-      10000,
+      60000,
       function () {
         this.sys.game.globals.gameSpeed += 50;
         this.sys.game.globals.jewelChance += 10;
@@ -53,6 +53,7 @@ export class GameScene extends Phaser.Scene {
         this.sys.game.globals.playerGravity += 400;
         this.sys.game.globals.jewelFrame = 37;
         this.sys.game.globals.jewelScore = 100;
+        this.sys.game.globals.scoreRate *= 2;
         this.sys.game.globals.playerJumps += 1;
         this.sys.game.globals.blocksAmount += 1;
         this.updatePlayer();
@@ -65,7 +66,7 @@ export class GameScene extends Phaser.Scene {
     );
 
     this.difficultyTimerTwo = this.time.delayedCall(
-      20000,
+      120000,
       function () {
         this.sys.game.globals.gameSpeed += 25;
         this.sys.game.globals.jewelChance += 20;
@@ -74,6 +75,7 @@ export class GameScene extends Phaser.Scene {
         this.sys.game.globals.playerGravity += 300;
         this.sys.game.globals.jewelFrame = 38;
         this.sys.game.globals.jewelScore = 200;
+        this.sys.game.globals.scoreRate *= 2;
         this.sys.game.globals.playerJumps += 1;
         this.sys.game.globals.blocksAmount += 1;
         this.updatePlayer();
