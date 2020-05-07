@@ -6,6 +6,7 @@ import { CreditsScene } from './scenes/creditsScene';
 import { GameScene } from './scenes/gameScene';
 import 'materialize-css/dist/js/materialize';
 import 'materialize-css/dist/css/materialize.css';
+import './css/index.css';
 
 class Game extends Phaser.Game {
   constructor(config) {
@@ -38,8 +39,13 @@ class Game extends Phaser.Game {
 
 window.addEventListener('load', function () {
   const config = {
-    width: 800,
-    height: 600,
+    scale: {
+      parent: 'platform-game',
+      mode: Phaser.Scale.FIT,
+      autoCenter: Phaser.Scale.CENTER_BOTH,
+      width: 800,
+      height: 600
+    },
     physics: { default: 'arcade' }
   };
 

@@ -1,0 +1,29 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  background-color: red;
+}
+
+#game-wrapper {
+  margin-top: 5rem;
+}
+
+#platform-game {
+  width: 400px;
+  height: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 800px) {
+  #platform-game {
+    width: 800px;
+    height: 600px;
+  }
+}
