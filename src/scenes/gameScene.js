@@ -107,7 +107,7 @@ export class GameScene extends Phaser.Scene {
       this.setPlatformCollider(platform);
     }, this);
 
-    this.time.addEvent({
+    this.scoreIncrementTimer = this.time.addEvent({
       delay: 1000,
       loop: true,
       callback: function () {
@@ -171,6 +171,7 @@ export class GameScene extends Phaser.Scene {
     this.physics.world.pause();
     this.gameIsOver = true;
     this.sound.stopAll();
+    this.scoreIncrementTimer.remove();
     this.gameOverSound.play();
     player.setTint(0xff0000);
 
@@ -195,6 +196,8 @@ export class GameScene extends Phaser.Scene {
       height / 2 + 100,
       'Again?'
     );
+
+    this.scoreBox.setDepth(2);
   }
 
   setJewels() {
@@ -240,10 +243,10 @@ export class GameScene extends Phaser.Scene {
   setUI() {
     const width = this.cameras.main.width;
     const boardContainer = this.add.container(width - 138, 42);
-    const leftPart = this.add.image(-96, 0, 'ui', 249);
-    const middlePartOne = this.add.image(-32, 0, 'ui', 250);
-    const middlePartTwo = this.add.image(32, 0, 'ui', 250);
-    const rightPart = this.add.image(96, 0, 'ui', 251);
+    const leftPart = this.add.image(-90, 0, 'ui', 249);
+    const middlePartOne = this.add.image(-30, 0, 'ui', 250);
+    const middlePartTwo = this.add.image(30, 0, 'ui', 250);
+    const rightPart = this.add.image(90, 0, 'ui', 251);
     const assembly = [leftPart, middlePartOne, middlePartTwo, rightPart];
 
     this.scoreText = this.add.text(
@@ -259,6 +262,7 @@ export class GameScene extends Phaser.Scene {
 
     boardContainer.add(assembly);
     boardContainer.add(this.scoreText);
+    this.scoreBox = boardContainer;
   }
 
   setPlatforms() {
