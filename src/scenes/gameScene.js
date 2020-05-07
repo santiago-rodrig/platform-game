@@ -46,7 +46,7 @@ export class GameScene extends Phaser.Scene {
     this.difficultyTimerOne = this.time.delayedCall(
       10000,
       function () {
-        this.sys.game.globals.gameSpeed += 100;
+        this.sys.game.globals.gameSpeed += 50;
         this.sys.game.globals.jewelChance += 10;
         this.sys.game.globals.obstacleChance += 20;
         this.sys.game.globals.playerJumpForce += 70;
@@ -54,6 +54,7 @@ export class GameScene extends Phaser.Scene {
         this.sys.game.globals.jewelFrame = 37;
         this.sys.game.globals.jewelScore = 100;
         this.sys.game.globals.playerJumps += 1;
+        this.sys.game.globals.blocksAmount += 1;
         this.updatePlayer();
         this.updateJewels();
         this.updatePlatforms();
@@ -66,7 +67,7 @@ export class GameScene extends Phaser.Scene {
     this.difficultyTimerTwo = this.time.delayedCall(
       20000,
       function () {
-        this.sys.game.globals.gameSpeed += 100;
+        this.sys.game.globals.gameSpeed += 25;
         this.sys.game.globals.jewelChance += 20;
         this.sys.game.globals.obstacleChance += 40;
         this.sys.game.globals.playerJumpForce += 50;
@@ -74,6 +75,7 @@ export class GameScene extends Phaser.Scene {
         this.sys.game.globals.jewelFrame = 38;
         this.sys.game.globals.jewelScore = 200;
         this.sys.game.globals.playerJumps += 1;
+        this.sys.game.globals.blocksAmount += 1;
         this.updatePlayer();
         this.updateJewels();
         this.updatePlatforms();
@@ -207,6 +209,8 @@ export class GameScene extends Phaser.Scene {
     this.sys.game.globals.jewelScore = 50;
     this.sys.game.globals.playerJumpForce = 450;
     this.sys.game.globals.playerJumps = 2;
+    this.sys.game.globals.blocksAmount = 2;
+    this.sound.stopAll();
     
     if (this.sys.game.globals.musicPlaying) {
       this.sys.game.globals.backgroundMusic.play();
@@ -364,7 +368,7 @@ export class GameScene extends Phaser.Scene {
     return Phaser.Math.Between(1, 100) <= this.sys.game.globals.obstacleChance;
   }
 
-  buildPlatform(positionX, positionY, blocksCount=1) {
+  buildPlatform(positionX, positionY, blocksCount) {
     const platform = this.physics.add.group();
     let block;
 
@@ -440,7 +444,7 @@ export class GameScene extends Phaser.Scene {
         this.newPlatform = this.buildPlatform(
           832,
           400 + Phaser.Math.Between(-50, 50),
-          Phaser.Math.Between(2, 5)
+          Phaser.Math.Between(this.sys.game.globals.blocksAmount, 5)
         );
   
         this.platforms.push(this.newPlatform);
