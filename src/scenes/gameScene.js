@@ -168,8 +168,12 @@ export class GameScene extends Phaser.Scene {
     this.sys.game.globals.playerScore = 0;
     this.sys.game.globals.playerGravity = 1000;
     this.sys.game.globals.scoreRate = 10;
-    this.sys.game.jewelFrame = 36;
-    this.sys.game.jewelScore = 50;
+    this.sys.game.globals.jewelFrame = 36;
+    this.sys.game.globals.jewelScore = 50;
+    
+    if (this.sys.game.globals.musicPlaying) {
+      this.sys.game.globals.backgroundMusic.play();
+    }
   }
 
   gameOver(player, obstacle) {
@@ -281,7 +285,6 @@ export class GameScene extends Phaser.Scene {
   setPlatforms() {
     this.platforms = [];
 
-    const width = this.cameras.main.width;
     const height = this.cameras.main.height;
     const firstPlatform = this.buildPlatform(32, height / 2 + 200, 10);
 
@@ -335,7 +338,7 @@ export class GameScene extends Phaser.Scene {
 
   update() {
     if (!this.gameIsOver) {
-      if (this.player.y > this.game.config.height) {
+      if (this.player.y > this.game.config.height || this.player.x < 0) {
         this.gameOver(this.player);
       }
 
