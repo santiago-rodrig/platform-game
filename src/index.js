@@ -14,7 +14,8 @@ class Game extends Phaser.Game {
       musicPlaying: false,
       gameSpeed: 200,
       jewelChance: 25,
-      obstacleChance: 30
+      obstacleChance: 30,
+      playerGravity: 800
     };
 
     this.scene.add('BootScene', BootScene);

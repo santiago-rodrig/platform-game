@@ -14,6 +14,10 @@ export class GameScene extends Phaser.Scene {
     this.setDifficulty();
   }
 
+  updatePlayer() {
+    this.player.setGravityY(this.sys.game.globals.playerGravity);
+  }
+
   setDifficulty() {
     this.time.delayedCall(
       60000,
@@ -21,6 +25,8 @@ export class GameScene extends Phaser.Scene {
         this.sys.game.globals.gameSpeed += 100;
         this.sys.game.globals.jewelChance += 10;
         this.sys.game.globals.obstacleChance += 20;
+        this.sys.game.globals.playerGravity += 100;
+        this.updatePlayer();
       },
       null,
       this
@@ -32,6 +38,8 @@ export class GameScene extends Phaser.Scene {
         this.sys.game.globals.gameSpeed += 100;
         this.sys.game.globals.jewelChance += 10;
         this.sys.game.globals.obstacleChance += 20;
+        this.sys.game.globals.playerGravity += 100;
+        this.updatePlayer();
       },
       null,
       this
@@ -63,7 +71,7 @@ export class GameScene extends Phaser.Scene {
 
     this.player = this.physics.add.sprite(200, height / 2 + 120, 'player');
     this.player.setFrame(0);
-    this.player.setGravityY(800);
+    this.player.setGravityY(this.sys.game.globals.playerGravity);
     this.player.jumpsCount = 2;
     this.player.setSize(54, 96);
     this.player.isJumping = false;
