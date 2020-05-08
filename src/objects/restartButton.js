@@ -5,7 +5,7 @@ export class RestartButton extends Phaser.GameObjects.Container {
     this.x = x;
     this.y = y;
     this.button = this.scene.add.sprite(0, 0, 'button').setInteractive();
-    this.button.scaleX = 3;
+    this.button.scaleX = 5;
 
     this.text = this.scene.make.text({
       x: 0,

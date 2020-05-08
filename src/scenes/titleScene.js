@@ -9,7 +9,7 @@ export default class TitleScene extends Phaser.Scene {
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
 
-    this.add.image(width / 2, height / 2 - 212, 'background');
+    this.add.image(width / 2, height / 2, 'background');
 
     if (!this.sys.game.globals.backgroundMusic) {
       this.sys.game.globals.backgroundMusic = this.sound.add(
@@ -27,26 +27,34 @@ export default class TitleScene extends Phaser.Scene {
       }
     }
 
-    this.gameButton = new Button(this,
+    new Button(this,
       width / 2,
       height / 2 - 100,
       'Play',
       'GameScene'
     );
 
-    this.optionsButton = new Button(this,
+    new Button(this,
       width / 2,
       height / 2,
       'Options',
       'OptionsScene'
     );
 
-    this.creditsButton = new Button(
+    new Button(
       this,
       width / 2,
       height / 2 + 100,
       'Credits',
       'CreditsScene'
+    );
+
+    const leaderBoardButton = new Button(
+      this,
+      width / 2,
+      height / 2 + 200,
+      'Leader board',
+      'LeaderBoardScene'
     );
   }
 }
