@@ -9,8 +9,18 @@ export default class ScoresFetcher {
 
   static topScores() {
     return this.parseScores().then(data => {
+      const alreadyStored = [];
+
       const firstTen = data.result.sort((a, b) => {
         return b.score - a.score;
+      }).filter(score => {
+        if (!alreadyStored.find(element => element.user === score.user)) {
+          alreadyStored.push(score);
+
+          return true;
+        } else {
+          return false;
+        }
       }).slice(0, 10);
 
       return firstTen;
@@ -19,9 +29,11 @@ export default class ScoresFetcher {
 
   static playerScore(playerName) {
     return this.parseScores().then(data => {
-      const playerScore = data.result.find(score => {
+      const playerScore = data.result.filter(score => {
         score.user === playerName;
-      });
+      }).sort((a, b) => {
+        return b.score - a.score;
+      })[0];
 
       return playerScore;
     });

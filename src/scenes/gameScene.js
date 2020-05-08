@@ -274,7 +274,7 @@ export default class GameScene extends Phaser.Scene {
     this.sys.game.globals.playerJumps = 2;
     this.sys.game.globals.blocksAmount = 2;
     this.sound.stopAll();
-    
+
     if (this.sys.game.globals.musicPlaying) {
       this.sys.game.globals.backgroundMusic.play();
     }
@@ -485,7 +485,7 @@ export default class GameScene extends Phaser.Scene {
         if (background.x <= -512) {
           const firstBackground = this.backgroundsGroup.children.entries[0];
           const lastBackground = this.backgroundsGroup.children.entries[1];
-  
+
           if (firstBackground === background) {
             background.x = lastBackground.x + 1024;
           } else {
@@ -493,16 +493,16 @@ export default class GameScene extends Phaser.Scene {
           }
         }
       }.bind(this));
-  
+
       this.platforms.forEach(function (platform, index) {
         const blocks = platform.getChildren();
         const lastBlock = blocks[blocks.length - 1];
-  
+
         if (lastBlock.x <= 32) {
           this.platformToUpdate = index;
         }
       }.bind(this));
-  
+
       if (this.platformToUpdate) {
         this.platforms = this.platforms.slice(
           0,
@@ -510,21 +510,21 @@ export default class GameScene extends Phaser.Scene {
         ).concat(
           this.platforms.slice(this.platformToUpdate + 1)
         );
-  
+
         this.platformToUpdate = null;
       }
-  
+
       if (this.thereIsSpaceBetweenPlatforms(Phaser.Math.Between(165, 215))) {
         this.newPlatform = this.buildPlatform(
           832,
           400 + Phaser.Math.Between(-50, 50),
           Phaser.Math.Between(this.sys.game.globals.blocksAmount, 5)
         );
-  
+
         this.platforms.push(this.newPlatform);
         this.setPlatformCollider(this.newPlatform);
       }
-  
+
       if (this.player.body.touching.down) {
         if (!this.player.anims.isPlaying) {
           this.player.anims.play('run');
@@ -532,19 +532,19 @@ export default class GameScene extends Phaser.Scene {
       } else {
         this.player.anims.stop();
       }
-  
+
       if (this.cursors.up.isDown) {
         if (this.player.jumpsAvailable() && !this.player.isJumping) {
           this.player.setVelocityY(this.sys.game.globals.playerJumpForce * -1);
           this.player.jumpsCount -= 1;
           this.player.isJumping = true;
           this.jumpSound.play();
-  
+
           this.time.delayedCall(500, function () {
             this.player.isJumping = false;
           }.bind(this));
         }
-  
+
         this.player.setFrame(1);
         this.footstepSound.stop();
       } else if (this.player.body.touching.down) {
@@ -554,29 +554,29 @@ export default class GameScene extends Phaser.Scene {
           this.footstepSound.play();
         }
       }
-  
+
       this.obstacles.children.iterate(function (obstacle) {
         if (obstacle.x <= -32) {
           this.obstaclesToRemove.push(obstacle);
         }
       }, this);
-  
+
       this.obstaclesToRemove.forEach(function (obstacle) {
         this.obstacles.remove(obstacle, true, true);
       }, this);
-  
+
       this.obstaclesToRemove = [];
-  
+
       this.jewels.children.iterate(function (jewel) {
         if (jewel.x <= -32) {
           this.jewelsToRemove.push(jewel);
         }
       }.bind(this));
-  
+
       this.jewelsToRemove.forEach(function (jewel) {
         this.jewels.remove(jewel, true, true);
       }, this);
-  
+
       this.jewelsToRemove = [];
     } else {
       if (this.player.anims.isPlaying) {
