@@ -1,3 +1,4 @@
+import ScoresFetcher from '../scoresFetcher';
 import { RestartButton } from '../objects/restartButton';
 import { Button } from '../objects/button';
 
@@ -103,6 +104,7 @@ export default class GameScene extends Phaser.Scene {
     );
 
     jumpsIncreasedText.setOrigin(0.5, 0.5);
+    jumpsIncreasedText.setDepth(3);
 
     this.add.tween({
       targets: jumpsIncreasedText,
@@ -132,6 +134,7 @@ export default class GameScene extends Phaser.Scene {
     );
 
     scoreRateIncreasedText.setOrigin(0.5, 0.5);
+    scoreRateIncreasedText.setDepth(3);
 
     this.add.tween({
       targets: scoreRateIncreasedText,
@@ -277,7 +280,13 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
+  postScore() {
+    ScoresFetcher.postPlayerScore(this.sys.game.playerName, this.playerScore);
+    console.log('POSTED SCORE');
+  }
+
   gameOver(player, obstacle) {
+    this.postScore();
     this.physics.world.pause();
     this.gameIsOver = true;
     this.sound.pauseAll();
@@ -300,16 +309,20 @@ export default class GameScene extends Phaser.Scene {
 
     curtain.fillStyle(0x222222, 0.8);
     curtain.fillRect(0, 0, width, height);
+    curtain.setDepth(2);
     gameOverText.setOrigin(0.5, 0.5);
+    gameOverText.setDepth(2);
 
-    new RestartButton(
+    const restart = new RestartButton(
       this,
       width / 2,
       height / 2 + 100,
       'Again?'
     );
 
-    new Button(
+    restart.setDepth(2);
+
+    const menu = new Button(
       this,
       width / 2,
       height / 2 + 200,
@@ -317,7 +330,8 @@ export default class GameScene extends Phaser.Scene {
       'TitleScene'
     );
 
-    this.scoreBox.setDepth(2);
+    menu.setDepth(2);
+    this.scoreBox.setDepth(3);
   }
 
   setJewels() {

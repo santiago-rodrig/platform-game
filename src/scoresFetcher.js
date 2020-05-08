@@ -2,7 +2,7 @@ const API = {
   scoresUrl: 'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/cASPRoHtswEsGw9hjO5y/scores/'
 };
 
-export default class ScoreFetcher {
+export default class ScoresFetcher {
   static parseScores() {
     return fetch(API.scoresUrl).then(response => response.json());
   }
@@ -34,11 +34,15 @@ export default class ScoreFetcher {
         API.scoresUrl,
         {
           body: JSON.stringify(
-            { "user": playerName, "score": score.toString() }
+            { "user": playerName, "score": score }
           ),
-          method: 'POST'
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'application/json' }
         }
       );
+
+      console.log('SCORE POSTED!!!!');
     }
 
     return this.playerScore().then(playerScore => {
