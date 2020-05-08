@@ -1,10 +1,10 @@
 {
   "name": "platform-game",
   "version": "1.0.0",
-  "description": "A simple 3 level platform game made with Phaser 3",
+  "description": "An endless runner game made with Phaser 3",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest test/*",
     "server": "webpack-dev-server",
     "build": "webpack --progress"
   },
@@ -25,10 +25,12 @@
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
+    "babel-jest": "^26.0.1",
     "babel-loader": "^8.1.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.5.3",
     "file-loader": "^6.0.0",
+    "jest": "^26.0.1",
     "raw-loader": "^4.0.1",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
