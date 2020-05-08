@@ -1,0 +1,7 @@
+@import '../../node_modules/materialize-css/sass/materialize.scss';
+
+.ajs-button, .ajs-ok {
+  @extend .btn;
+  @extend .waves-effect;
+  @extend .waves-light;
+}

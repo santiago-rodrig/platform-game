@@ -1,4 +1,6 @@
 import GameManager from './gameManager';
+import alertify from 'alertifyjs/build/alertify';
+import 'alertifyjs/build/css/alertify.css';
 
 export default class DOMManager {
   static renderGame() {
@@ -18,29 +20,37 @@ export default class DOMManager {
     // set the form
     userForm.action = '#'; // we don't want to post, we are going to use fetch
 
+    function alertUserAboutName() {
+      alertify.alert('Woops!', 'Player name length must be 9 characters max');
+    }
+
     userForm.addEventListener('submit', function (event) {
       event.preventDefault();
-
-      const gameContainer = document.getElementById('platform-game');
-
-      // clear the container for the game
-      while (gameContainer.firstChild) {
-        gameContainer.removeChild(gameContainer.firstChild);
-      }
-
-      gameContainer.style.padding = '0';
       const playerName = userInput.value;
-      GameManager.bootGame(playerName);
+
+      if (playerName.length <= 9) {
+        const gameContainer = document.getElementById('platform-game');
+
+        // clear the container for the game
+        while (gameContainer.firstChild) {
+          gameContainer.removeChild(gameContainer.firstChild);
+        }
+
+        gameContainer.style.padding = '0';
+        GameManager.bootGame(playerName);
+      } else {
+        alertUserAboutName();
+      }
     });
 
     // set label for attribute
-    userLabel.htmlFor = 'username';
-    userLabel.textContent = 'Username';
+    userLabel.htmlFor = 'player-name';
+    userLabel.textContent = 'Player name';
     // set input id, name, and placeholder
     userInput.type = 'text';
-    userInput.name = 'username';
-    userInput.id = 'username';
-    userInput.placeholder = 'Platform Master 43';
+    userInput.name = 'player-name';
+    userInput.id = 'player-name';
+    userInput.placeholder = 'bob33';
     // set submit button
     userSubmit.innerHTML = 'Submit <i class="material-icons right">send</i>';
     userSubmit.classList.add('btn', 'waves-effect', 'waves-light');
