@@ -30,7 +30,7 @@ export default class ScoresFetcher {
   static playerScore(playerName) {
     return this.parseScores().then(data => {
       const playerScore = data.result.filter(score => {
-        score.user === playerName;
+        return score.user === playerName;
       }).sort((a, b) => {
         return b.score - a.score;
       })[0];
