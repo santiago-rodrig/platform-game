@@ -282,7 +282,6 @@ export default class GameScene extends Phaser.Scene {
 
   postScore() {
     ScoresFetcher.postPlayerScore(this.sys.game.playerName, this.playerScore);
-    console.log('POSTED SCORE');
   }
 
   gameOver(player, obstacle) {

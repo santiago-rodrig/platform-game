@@ -53,8 +53,6 @@ export default class ScoresFetcher {
           headers: { 'Content-Type': 'application/json' }
         }
       );
-
-      console.log('SCORE POSTED!!!!');
     }
 
     return this.playerScore().then(playerScore => {
