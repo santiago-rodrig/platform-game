@@ -9,7 +9,7 @@ export default class TitleScene extends Phaser.Scene {
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
 
-    this.sound.stopAll(); // weird footstep bug
+    this.sound.stopByKey('footstep'); // weird footstep bug
     this.add.image(width / 2, height / 2, 'background');
 
     if (!this.sys.game.globals.backgroundMusic) {
