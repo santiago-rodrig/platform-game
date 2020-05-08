@@ -37,7 +37,7 @@ export default (() => {
     // playerScore: number
     return {
       body: JSON.stringify(
-        { "user": playerName, "score": score }
+        { "user": playerName, "score": playerScore }
       ),
       method: 'POST',
       mode: 'cors',
@@ -48,7 +48,7 @@ export default (() => {
   function shouldPostPlayerScore(scoreObject, freshScore) {
     // scoreObject: { user: string, score: number }
     // freshScore: number
-    return scoreObject && scoreObject.score < freshScore;
+    return !scoreObject || scoreObject.score < freshScore;
   }
 
   return {
