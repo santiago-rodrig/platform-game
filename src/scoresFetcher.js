@@ -21,7 +21,7 @@ export default class ScoreFetcher {
     return this.parseScores().then(data => {
       const playerScore = data.result.find(score => {
         score.user === playerName;
-      }).score;
+      });
 
       return playerScore;
     });

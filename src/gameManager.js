@@ -1,7 +1,7 @@
 import Game from './game';
 
 export default class GameManager {
-  static bootGame() {
+  static bootGame(playerName) {
     new Game(
       {
         scale: {
@@ -13,7 +13,7 @@ export default class GameManager {
         },
         physics: { default: 'arcade' }
       },
-      this.playerName
+      playerName
     );
   }
 }
