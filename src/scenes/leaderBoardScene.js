@@ -1,3 +1,4 @@
+import ScoresFetcher from '../scoresFetcher';
 import { Button } from '../objects/button';
 
 export default class LeaderBoardScene extends Phaser.Scene {
@@ -10,6 +11,54 @@ export default class LeaderBoardScene extends Phaser.Scene {
     this.setTitle();
     this.setMenuButton();
     this.setBoard();
+    this.setTopScores();
+  }
+
+  setTopScores() {
+    ScoresFetcher.topScores().then(function (scores) {
+      this.writeTopScores(scores);
+    }.bind(this));
+  }
+
+  writeTopScores(scores) {
+    const width = this.cameras.main.width;
+    const height = this.cameras.main.height;
+    const scoresPositionX = width / 2 - 150;
+    const scoresPositionY = height / 2 - 128;
+    const scoresTextOffset = 40;
+    const scoresFont = '12px monospace';
+    const scoresColor = '#000000';
+
+    const title = this.add.text(
+      scoresPositionX,
+      scoresPositionY,
+      'TOP SCORES',
+      { font: '16px monospace', fill: '#000000' }
+    );
+
+    title.setOrigin(0.5, 0.5);
+
+    if (scores.length > 0) {
+      const firstScoreText = this.add.text(
+        scoresPositionX,
+        scoresPositionY + 60,
+        `${scores[0].user}: ${scores[0].score}`,
+        { font: scoresFont, fill: scoresColor }
+      );
+  
+      firstScoreText.setOrigin(0.5, 0.5);
+  
+      scores.slice(1).forEach(function (score, index) {
+        const scoreText = this.add.text(
+          scoresPositionX,
+          scoresPositionY + 60 + (index + 1) * scoresTextOffset,
+          `${score.user}: ${score.score}`,
+          { font: scoresFont, fill: scoresColor }
+        );
+  
+        scoreText.setOrigin(0.5, 0.5);
+      }, this);
+    }
   }
 
   setBoard() {
