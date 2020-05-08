@@ -26,6 +26,8 @@ export default class Game extends Phaser.Game {
     };
 
     this.playerName = playerName;
+    // mouse pointer was not working after losing focus
+    this.input.mouse.capture = false;
 
     this.scene.add('BootScene', BootScene);
     this.scene.add('PreloaderScene', PreloaderScene);
