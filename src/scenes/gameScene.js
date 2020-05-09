@@ -532,7 +532,7 @@ export default class GameScene extends Phaser.Scene {
         this.player.anims.stop();
       }
 
-      if (this.cursors.up.isDown) {
+      if (this.cursors.up.isDown || this.input.activePointer.isDown) {
         if (this.player.jumpsAvailable() && !this.player.isJumping) {
           this.player.setVelocityY(this.sys.game.globals.playerJumpForce * -1);
           this.player.jumpsCount -= 1;
