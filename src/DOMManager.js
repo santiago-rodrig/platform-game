@@ -1,4 +1,5 @@
 import GameManager from './gameManager';
+import DOMManagerHelper from './helpers/DOMManagerHelper';
 import alertify from 'alertifyjs/build/alertify';
 import 'alertifyjs/build/css/alertify.css';
 
@@ -27,7 +28,7 @@ export default class DOMManager {
     userForm.addEventListener('submit', function (event) {
       event.preventDefault();
       const playerName = userInput.value;
-      const playerNameIsValid = this.isPlayerNameValid(playerName);
+      const playerNameIsValid = DOMManagerHelper.isPlayerNameValid(playerName);
 
       if (playerNameIsValid) {
         const gameContainer = document.getElementById('platform-game');
