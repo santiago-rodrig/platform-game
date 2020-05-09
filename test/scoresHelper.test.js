@@ -29,6 +29,18 @@ describe('fetchFirstTen', () => {
     ]
   };
 
+  const inputThree = {
+    "result": [
+      { "user": "bob", "score": 42 },
+      { "user": "sam", "score": 420 },
+      { "user": "steve", "score": 142 },
+      { "user": "jen", "score": 342 },
+      { "user": "lenny", "score": 259 },
+      { "user": "john", "score": 4210 },
+      { "user": "stuart", "score": 2342 },
+    ]
+  };
+
   test('it returns only the best scores for a given user', () => {
     expect(ScoresHelper.fetchFirstTen(inputOne)).toEqual([
         { "user": "jen", "score": 298 },
@@ -49,6 +61,18 @@ describe('fetchFirstTen', () => {
       { user: 'john', score: 129 },
       { user: 'jen', score: 122 },
       { user: 'eduardo', score: 64 }
+    ]);
+  });
+
+  test('it sorts the results in descending order', () => {
+    expect(ScoresHelper.fetchFirstTen(inputThree)).toEqual([
+      { user: 'john', score: 4210 },
+      { user: 'stuart', score: 2342 },
+      { user: 'sam', score: 420 },
+      { user: 'jen', score: 342 },
+      { user: 'lenny', score: 259 },
+      { user: 'steve', score: 142 },
+      { user: 'bob', score: 42 }
     ]);
   });
 });
