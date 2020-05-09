@@ -1,11 +1,11 @@
 # Platform Game 
 
-A game built with Phaser 3, you can see in the source code how to create
-several scenes for a general purpose game, the only part of the game
-that makes it a platform game is the `GameScene`, what does it mean? It means
-that if you instead wanted to build a space shooter game, there's nothing to
-stop you! Just reuse the remaining scenes (all but the `GameScene`), how amazing
-is that!?
+A game built with [Phaser 3](http://phaser.io/), you can see in the source code
+how to create several scenes for a general purpose game, the only part of the
+game that makes it a platform game is the `GameScene`, what does it mean? It
+means that if you instead wanted to build a space shooter game, there's nothing
+to stop you! Just reuse the remaining scenes (all but the `GameScene`), how
+amazing is that!?
 
 ![platform game gif demo](./docs/demo.gif)
 
@@ -43,7 +43,7 @@ npm install
 ```
 
 Now, in order to take a look you can use one the tasks provided called
-**server**, type in your terminal `npm run server` and a local server
+**server**, type inside of your terminal `npm run server` and a local server
 will fire up, now visit [localhost:8080](http://localhost:8080) and watch
 the application running.
 
