@@ -76,3 +76,68 @@ describe('fetchFirstTen', () => {
     ]);
   });
 });
+
+describe('fetchPlayerScore', () => {
+  const scoresCollection = [
+    {
+      "result": [
+        { "user": "bob", "score": 42 },
+        { "user": "bob", "score": 31 },
+        { "user": "jen", "score": 298 },
+        { "user": "jen", "score": 122 },
+        { "user": "lenny", "score": 12 }
+      ]
+    },
+    {
+      "result": [
+        { "user": "bob", "score": 42 },
+        { "user": "sam", "score": 31 },
+        { "user": "steve", "score": 298 },
+        { "user": "jen", "score": 122 },
+        { "user": "lenny", "score": 12 },
+        { "user": "john", "score": 129 },
+        { "user": "stuart", "score": 270 },
+        { "user": "gabriel", "score": 2720 },
+        { "user": "fabio", "score": 171 },
+        { "user": "eduardo", "score": 64 },
+        { "user": "miguel", "score": 3987 },
+        { "user": "barbara", "score": 1654 },
+        { "user": "patrick", "score": 5621 },
+      ]
+    },
+    {
+      "result": [
+        { "user": "bob", "score": 42 },
+        { "user": "sam", "score": 420 },
+        { "user": "steve", "score": 142 },
+        { "user": "jen", "score": 342 },
+        { "user": "lenny", "score": 259 },
+        { "user": "john", "score": 4210 },
+        { "user": "stuart", "score": 2342 },
+      ]
+    }
+  ];
+
+  const resultsCollectionOne = [
+    { "user": "bob", "score": 42 },
+    { "user": "bob", "score": 42 },
+    { "user": "bob", "score": 42 }
+  ]
+
+  const resultsCollectionTwo = [
+    undefined,
+    undefined,
+    undefined
+  ];
+
+  const playerNameOne = "bob"; // this one is present on all scores
+  const playerNameTwo = "bobert"; // this one is not present on any scores
+
+  it('returns the corresponding score object if name present', () => {
+    scoresCollection.forEach((scores, index) => {
+      expect(ScoresHelper.fetchPlayerScore(playerNameOne, scores)).toEqual(
+        resultsCollectionOne[index];
+      );
+    });
+  });
+});
