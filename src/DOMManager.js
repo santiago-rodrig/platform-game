@@ -9,14 +9,6 @@ export default class DOMManager {
     gameElement.appendChild(this.renderUserForm());
   }
 
-  static isPlayerNameValid(playerName) {
-    const regex = /^[a-zA-Z\d]{3,9}$/;
-
-    if (regex.test(playerName)) return true;
-
-    return false;
-  }
-
   static renderUserForm() {
     const container = document.createElement('div');
     const formHeading = document.createElement('h4');
