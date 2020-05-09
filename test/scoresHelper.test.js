@@ -11,11 +11,44 @@ describe('fetchFirstTen', () => {
     ]
   };
 
+  const inputTwo = {
+    "result": [
+      { "user": "bob", "score": 42 },
+      { "user": "sam", "score": 31 },
+      { "user": "steve", "score": 298 },
+      { "user": "jen", "score": 122 },
+      { "user": "lenny", "score": 12 },
+      { "user": "john", "score": 129 },
+      { "user": "stuart", "score": 270 },
+      { "user": "gabriel", "score": 2720 },
+      { "user": "fabio", "score": 171 },
+      { "user": "eduardo", "score": 64 },
+      { "user": "miguel", "score": 3987 },
+      { "user": "barbara", "score": 1654 },
+      { "user": "patrick", "score": 5621 },
+    ]
+  };
+
   test('it returns only the best scores for a given user', () => {
     expect(ScoresHelper.fetchFirstTen(inputOne)).toEqual([
         { "user": "jen", "score": 298 },
         { "user": "bob", "score": 42 },
         { "user": "lenny", "score": 12 }
+    ]);
+  });
+
+  test('it only fetches the best first ten scores', () => {
+    expect(ScoresHelper.fetchFirstTen(inputTwo)).toEqual([
+      { user: 'patrick', score: 5621 },
+      { user: 'miguel', score: 3987 },
+      { user: 'gabriel', score: 2720 },
+      { user: 'barbara', score: 1654 },
+      { user: 'steve', score: 298 },
+      { user: 'stuart', score: 270 },
+      { user: 'fabio', score: 171 },
+      { user: 'john', score: 129 },
+      { user: 'jen', score: 122 },
+      { user: 'eduardo', score: 64 }
     ]);
   });
 });
