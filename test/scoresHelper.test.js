@@ -136,7 +136,15 @@ describe('fetchPlayerScore', () => {
   it('returns the corresponding score object if name present', () => {
     scoresCollection.forEach((scores, index) => {
       expect(ScoresHelper.fetchPlayerScore(playerNameOne, scores)).toEqual(
-        resultsCollectionOne[index];
+        resultsCollectionOne[index]
+      );
+    });
+  });
+
+  it('returns undefined if the name is not present', () => {
+    scoresCollection.forEach((scores, index) => {
+      expect(ScoresHelper.fetchPlayerScore(playerNameTwo, scores)).toEqual(
+        resultsCollectionTwo[index]
       );
     });
   });
