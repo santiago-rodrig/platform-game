@@ -184,4 +184,10 @@ describe('shouldPostPlayerScore', () => {
       ScoresHelper.shouldPostPlayerScore(scoreObject, greaterScore)
     ).toBeTruthy();
   });
+
+  it('returns a falsy value if score is lesser', () => {
+    expect(
+      scoresHelper.shouldPostPlayerScore(scoreObject, lesserScore)
+    ).toBeFalsy
+  });
 });
