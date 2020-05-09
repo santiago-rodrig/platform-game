@@ -549,9 +549,9 @@ export default class GameScene extends Phaser.Scene {
       } else if (this.player.body.touching.down) {
         this.player.jumpsCount = this.sys.game.globals.playerJumps;
 
-        if (!this.footstepSound.isPlaying) {
-          this.footstepSound.play();
-        }
+        if (!this.footstepSound.isPlaying) this.footstepSound.play();
+      } else {
+        if (this.footstepSound.isPlaying) this.footstepSound.stop();
       }
 
       this.obstacles.children.iterate(function (obstacle) {
