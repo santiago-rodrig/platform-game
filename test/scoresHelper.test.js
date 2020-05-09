@@ -155,3 +155,21 @@ describe('fetchPlayerScore', () => {
     ).toEqual(resultsCollectionOne[0]);
   });
 });
+
+describe('buildPostScoreParameters', () => {
+  const playerName = 'bob';
+  const playerScore = 42;
+
+  it('returns an object with the corresponding player name and score', () => {
+    expect(
+      ScoresHelper.buildPostScoreParameters(playerName, playerScore)
+    ).toEqual({
+      body: JSON.stringify(
+        { "user": playerName, "score": playerScore }
+      ),
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' }
+    });
+  });
+});
