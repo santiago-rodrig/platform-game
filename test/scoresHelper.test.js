@@ -190,4 +190,10 @@ describe('shouldPostPlayerScore', () => {
       scoresHelper.shouldPostPlayerScore(scoreObject, lesserScore)
     ).toBeFalsy
   });
+
+  it('returns a truthy value is score object is undefined', () => {
+    expect(
+      scoresHelper.shouldPostPlayerScore(undefined, 42)
+    ).toBeFalsy
+  });
 });
