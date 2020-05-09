@@ -173,3 +173,15 @@ describe('buildPostScoreParameters', () => {
     });
   });
 });
+
+describe('shouldPostPlayerScore', () => {
+  const scoreObject = { "user": "bob", "score": 42 };
+  const greaterScore = 43;
+  const lesserScore = 41;
+
+  it('returns a truthy value if score is greater', () => {
+    expect(
+      ScoresHelper.shouldPostPlayerScore(scoreObject, greaterScore)
+    ).toBeTruthy();
+  });
+});
