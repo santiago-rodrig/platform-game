@@ -146,7 +146,7 @@ export default class LeaderBoardScene extends Phaser.Scene {
     if (scores.length > 0) {
       const firstScoreText = this.add.text(
         scoresPositionX - 50,
-        scoresPositionY + 40,
+        scoresPositionY + 30,
         `${scores[0].user}:${padWithSpaces(scores[0])}${scores[0].score}`,
         { font: scoresFont, fill: scoresColor }
       );
@@ -154,7 +154,7 @@ export default class LeaderBoardScene extends Phaser.Scene {
       scores.slice(1).forEach(function (score, index) {
         const scoreText = this.add.text(
           scoresPositionX - 50,
-          scoresPositionY + 40 + (index + 1) * scoresTextOffset,
+          scoresPositionY + 30 + (index + 1) * scoresTextOffset,
           `${score.user}:${padWithSpaces(score)}${score.score}`,
           { font: scoresFont, fill: scoresColor }
         );

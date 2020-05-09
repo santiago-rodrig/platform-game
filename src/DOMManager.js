@@ -22,7 +22,10 @@ export default class DOMManager {
     userForm.action = '#'; // we don't want to post, we are going to use fetch
 
     function alertUserAboutName() {
-      alertify.alert('Woops!', 'Player name length must be 9 characters max');
+      alertify.alert(
+        'Woops!',
+        'Player name length must be 3 characters min and 9 characters max'
+      );
     }
 
     userForm.addEventListener('submit', function (event) {
