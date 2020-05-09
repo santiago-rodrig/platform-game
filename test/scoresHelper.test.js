@@ -148,4 +148,10 @@ describe('fetchPlayerScore', () => {
       );
     });
   });
+
+  it('fetches only the best score for the player name given', () => {
+    expect(
+      ScoresHelper.fetchPlayerScore(playerNameOne, scoresCollection[0])
+    ).toEqual(resultsCollectionOne[0]);
+  });
 });
