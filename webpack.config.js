@@ -6,7 +6,7 @@ module.exports = {
   mode: 'development',
   entry: {
     app: path.resolve(__dirname, 'src', 'index.js'),
-    productionDependencies: ['phaser']
+    loader: path.resolve(__dirname, 'src', 'loader.js'),
   },
   output: {
     filename: '[name].bundle.js',

@@ -1,3 +1,4 @@
+import 'phaser';
 import { BootScene } from './scenes/bootScene';
 import { PreloaderScene } from './scenes/preloaderScene';
 import { TitleScene } from './scenes/titleScene';
@@ -9,8 +10,6 @@ import 'materialize-css/dist/css/materialize.css';
 import './scss/index.scss';
 import './DOMManager';
 import DOMManager from './DOMManager';
-
-DOMManager.renderLoader();
 
 window.addEventListener('load', function () {
   DOMManager.renderBody();
