@@ -6,7 +6,7 @@ describe('isPlayerNameValid', () => {
     'srodrig96',
     'hejeroaz',
     'samuel12',
-    'bob'
+    'bob',
   ];
 
   const invalidNames = [
@@ -15,7 +15,7 @@ describe('isPlayerNameValid', () => {
     'hi',
     // name can not have special characters
     'hello**',
-    'fred__.21'
+    'fred__.21',
   ];
 
   it('returns true for names with a length between 3 and 9', () => {
