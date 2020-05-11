@@ -16,15 +16,7 @@ html {
 }
 
 #game-wrapper {
-  margin-top: 5rem;
-}
-
-#platform-game {
-  width: 340px;
-  height: 255px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 2rem;
+  padding-top: 1.5rem;
 }
 
 h2 { overflow: hidden; }
@@ -41,15 +33,19 @@ h2 { overflow: hidden; }
   }
 }
 
-@media (min-width: 400px) {
-  #platform-game {
+#platform-game {
+  width: 340px;
+  height: 255px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem;
+
+  @media (min-width: 400px) {
     width: 400px;
     height: 300px;
   }
-}
 
-@media (min-width: 800px) {
-  #platform-game {
+  @media (min-width: 800px) {
     width: 800px;
     height: 600px;
   }
