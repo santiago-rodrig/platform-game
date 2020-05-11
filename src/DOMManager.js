@@ -1,7 +1,9 @@
+/* eslint-disable import/no-unresolved */
 import alertify from 'alertifyjs/build/alertify';
+import 'alertifyjs/build/css/alertify.css';
+/* eslint-enable import/no-unresolved */
 import GameManager from './gameManager';
 import DOMManagerHelper from './helpers/DOMManagerHelper';
-import 'alertifyjs/build/css/alertify.css';
 import bodyHTML from './body.html';
 
 export default class DOMManager {

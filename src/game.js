@@ -1,4 +1,6 @@
+/* eslint-disable import/no-unresolved */
 import Phaser from 'phaser';
+/* eslint-enable import/no-unresolved */
 import BootScene from './scenes/bootScene';
 import PreloaderScene from './scenes/preloaderScene';
 import TitleScene from './scenes/titleScene';

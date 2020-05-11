@@ -1,4 +1,6 @@
+/* eslint-disable import/no-unresolved */
 import Phaser from 'phaser';
+/* eslint-enable import/no-unresolved */
 
 export default class CreditsScene extends Phaser.Scene {
   constructor() {

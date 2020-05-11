@@ -1,5 +1,7 @@
+/* eslint-disable import/no-unresolved */
 import 'materialize-css/dist/js/materialize';
 import 'materialize-css/dist/css/materialize.css';
+/* eslint-enable import/no-unresolved */
 import './scss/index.scss';
 import loaderGifSrc from './loader.gif';
 
