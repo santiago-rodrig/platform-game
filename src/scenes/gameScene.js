@@ -195,7 +195,7 @@ export default class GameScene extends Phaser.Scene {
     this.player.isJumping = false;
     this.playerScore = 0;
 
-    this.player.jumpsAvailable = () => this.jumpsCount >= 1;
+    this.player.jumpsAvailable = player => player.jumpsCount >= 1;
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -549,7 +549,7 @@ export default class GameScene extends Phaser.Scene {
         this.cursors.up.isDown
         || (this.listenForPointer && this.input.activePointer.isDown)
       ) {
-        if (this.player.jumpsAvailable() && !this.player.isJumping) {
+        if (this.player.jumpsAvailable(this.player) && !this.player.isJumping) {
           this.player.setVelocityY(this.sys.game.globals.playerJumpForce * -1);
           this.player.jumpsCount -= 1;
           this.player.isJumping = true;
