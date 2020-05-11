@@ -1,6 +1,8 @@
+/* eslint-disable import/no-unresolved */
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
+/* eslint-enable import/no-unresolved */
 
 module.exports = {
   mode: 'development',
@@ -10,11 +12,11 @@ module.exports = {
   },
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
   },
   devtool: 'inline-source-map',
   devServer: {
-    contentBase: path.resolve(__dirname, 'dist')
+    contentBase: path.resolve(__dirname, 'dist'),
   },
   module: {
     rules: [
@@ -23,36 +25,36 @@ module.exports = {
         use: [
           'style-loader',
           'css-loader',
-          'sass-loader'
-        ]
+          'sass-loader',
+        ],
       },
       {
         test: /\.js$/,
         include: path.resolve(__dirname, 'src'),
         use: {
-          loader: 'babel-loader'
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /(\.vert|\.frag)$/,
-        use: 'raw-loader'
+        use: 'raw-loader',
       },
       {
         test: /\.css$/,
         use: [
           'style-loader',
-          'css-loader'
-        ]
+          'css-loader',
+        ],
       },
       {
         test: /\.(jpg|gif)$/,
-        use: 'file-loader'
+        use: 'file-loader',
       },
       {
         test: /\.html$/,
         use: 'html-loader',
-      }
-    ]
+      },
+    ],
   },
   plugins: [
     new CopyWebpackPlugin([
@@ -62,12 +64,12 @@ module.exports = {
       },
       {
         from: path.resolve(__dirname, 'assets', '**', '*'),
-        to: path.resolve(__dirname, 'dist')
-      }
+        to: path.resolve(__dirname, 'dist'),
+      },
     ]),
     new webpack.DefinePlugin({
       'typeof CANVAS_RENDERER': JSON.stringify(true),
-      'typeof WEBGL_RENDERER': JSON.stringify(true)
-    })
-  ]
+      'typeof WEBGL_RENDERER': JSON.stringify(true),
+    }),
+  ],
 };
