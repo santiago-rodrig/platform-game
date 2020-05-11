@@ -11,7 +11,9 @@ export default class DOMManager {
     loaderContainer.id = 'loader-container';
     const loaderGif = new Image();
     loaderGif.src = loaderGifSrc;
-    loaderContainer.appendChild(loaderGif);
+    const loaderLabel = document.createElement('p');
+    loaderLabel.textContent = 'Loading, please wait...';
+    loaderContainer.append(loaderGif, loaderLabel);
     document.body.appendChild(loaderContainer);
   }
 
