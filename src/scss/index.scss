@@ -1,5 +1,55 @@
 @import '../../node_modules/materialize-css/sass/materialize.scss';
 
+html {
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* only one row is present */
+
+.row {
+  margin-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+#game-wrapper {
+  margin-top: 5rem;
+}
+
+#platform-game {
+  width: 340px;
+  height: 255px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem;
+}
+
+h2 { overflow: hidden; }
+
+#loader-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media (min-width: 400px) {
+  #platform-game {
+    width: 400px;
+    height: 300px;
+  }
+}
+
+@media (min-width: 800px) {
+  #platform-game {
+    width: 800px;
+    height: 600px;
+  }
+}
+
 .ajs-button, .ajs-ok {
   @extend .btn;
   @extend .waves-effect;

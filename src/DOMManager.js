@@ -3,8 +3,18 @@ import DOMManagerHelper from './helpers/DOMManagerHelper';
 import alertify from 'alertifyjs/build/alertify';
 import 'alertifyjs/build/css/alertify.css';
 import bodyHTML from './body.html';
+import loaderGifSrc from './loader.gif';
 
 export default class DOMManager {
+  static renderLoader() {
+    const loaderContainer = document.createElement('div');
+    loaderContainer.id = 'loader-container';
+    const loaderGif = new Image();
+    loaderGif.src = loaderGifSrc;
+    loaderContainer.appendChild(loaderGif);
+    document.body.appendChild(loaderContainer);
+  }
+
   static renderBody() {
     document.body.classList.add('grey', 'darken-3');
     document.body.innerHTML = bodyHTML;

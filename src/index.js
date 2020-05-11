@@ -7,9 +7,10 @@ import { GameScene } from './scenes/gameScene';
 import 'materialize-css/dist/js/materialize';
 import 'materialize-css/dist/css/materialize.css';
 import './scss/index.scss';
-import './css/index.css';
 import './DOMManager';
 import DOMManager from './DOMManager';
+
+DOMManager.renderLoader();
 
 window.addEventListener('load', function () {
   DOMManager.renderBody();
