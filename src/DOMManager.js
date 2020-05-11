@@ -2,8 +2,14 @@ import GameManager from './gameManager';
 import DOMManagerHelper from './helpers/DOMManagerHelper';
 import alertify from 'alertifyjs/build/alertify';
 import 'alertifyjs/build/css/alertify.css';
+import bodyHTML from './body.html';
 
 export default class DOMManager {
+  static renderBody() {
+    document.body.classList.add('grey', 'darken-3');
+    document.body.innerHTML = bodyHTML;
+  }
+
   static renderGame() {
     const gameElement = document.getElementById('platform-game');
 

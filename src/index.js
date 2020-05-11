@@ -12,5 +12,6 @@ import './DOMManager';
 import DOMManager from './DOMManager';
 
 window.addEventListener('load', function () {
+  DOMManager.renderBody();
   DOMManager.renderGame();
 });
