@@ -1,4 +1,5 @@
-import { Button } from "../objects/button";
+import Phaser from 'phaser';
+import buildButton from '../objects/button';
 
 export default class OptionsScene extends Phaser.Scene {
   constructor() {
@@ -6,8 +7,8 @@ export default class OptionsScene extends Phaser.Scene {
   }
 
   create() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
+    const { width } = this.cameras.main;
+    const { height } = this.cameras.main;
 
     this.add.image(width / 2, height / 2 - 212, 'background');
 
@@ -17,8 +18,8 @@ export default class OptionsScene extends Phaser.Scene {
       text: 'Options',
       style: {
         font: '40px monospace',
-        fill: '#222222'
-      }
+        fill: '#222222',
+      },
     });
 
     if (!this.sys.game.globals.music) {
@@ -33,15 +34,15 @@ export default class OptionsScene extends Phaser.Scene {
       text: 'Music',
       style: {
         font: '24px monospace',
-        fill: '#222222'
-      }
+        fill: '#222222',
+      },
     });
 
     this.musicLabel.setOrigin(0.3, 0.25);
     this.musicCheckBox.setInteractive();
     this.musicCheckBox.setScale(2);
 
-    this.musicCheckBox.on('pointerdown', function () {
+    this.musicCheckBox.on('pointerdown', () => {
       this.sys.game.globals.music = !this.sys.game.globals.music;
       this.sys.game.globals.musicPlaying = !this.sys.game.globals.musicPlaying;
 
@@ -52,8 +53,8 @@ export default class OptionsScene extends Phaser.Scene {
         this.sys.game.globals.backgroundMusic.play();
         this.musicCheckBox.setTexture('ui', 189);
       }
-    }.bind(this));
+    });
 
-    this.backButton = new Button(this, 400, 500, 'Back', 'TitleScene');
+    this.backButton = buildButton(this, 400, 500, 'Back', 'TitleScene');
   }
 }

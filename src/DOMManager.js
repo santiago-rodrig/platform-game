@@ -1,6 +1,6 @@
+import alertify from 'alertifyjs/build/alertify';
 import GameManager from './gameManager';
 import DOMManagerHelper from './helpers/DOMManagerHelper';
-import alertify from 'alertifyjs/build/alertify';
 import 'alertifyjs/build/css/alertify.css';
 import bodyHTML from './body.html';
 
@@ -30,11 +30,11 @@ export default class DOMManager {
     function alertUserAboutName() {
       alertify.alert(
         'Woops!',
-        'Player name length must be 3 characters min and 9 characters max'
+        'Player name length must be 3 characters min and 9 characters max',
       );
     }
 
-    userForm.addEventListener('submit', function (event) {
+    userForm.addEventListener('submit', (event) => {
       event.preventDefault();
       const playerName = userInput.value;
       const playerNameIsValid = DOMManagerHelper.isPlayerNameValid(playerName);

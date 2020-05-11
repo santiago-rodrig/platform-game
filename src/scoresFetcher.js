@@ -1,7 +1,7 @@
 import ScoresHelper from './helpers/scoresHelper';
 
 const API = {
-  scoresUrl: 'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/cASPRoHtswEsGw9hjO5y/scores/'
+  scoresUrl: 'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/cASPRoHtswEsGw9hjO5y/scores/',
 };
 
 export default class ScoresFetcher {
@@ -10,22 +10,18 @@ export default class ScoresFetcher {
   }
 
   static topScores() {
-    return this.parseScores().then(data => {
-      return ScoresHelper.fetchFirstTen(data);
-    });
+    return this.parseScores().then(data => ScoresHelper.fetchFirstTen(data));
   }
 
   static playerScore(playerName) {
-    return this.parseScores().then(data => {
-      return ScoresHelper.fetchPlayerScore(playerName, data);
-    });
+    return this.parseScores().then(data => ScoresHelper.fetchPlayerScore(playerName, data));
   }
 
   static postPlayerScore(playerName, score) {
     function postScore() {
       fetch(
         API.scoresUrl,
-        ScoresHelper.buildPostScoreParameters(playerName, score)
+        ScoresHelper.buildPostScoreParameters(playerName, score),
       );
     }
 

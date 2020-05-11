@@ -5,17 +5,16 @@ export default (() => {
     // { "result": [ { "user": "username", "score": 43 }, ...] }
     const alreadyStored = [];
 
-    const firstTen = scoresObject.result.sort((a, b) => {
-      return b.score - a.score;
-    }).filter(score => {
-      if (!alreadyStored.find(element => element.user === score.user)) {
-        alreadyStored.push(score);
+    const firstTen = scoresObject.result
+      .sort((a, b) => b.score - a.score).filter(score => {
+        if (!alreadyStored.find(element => element.user === score.user)) {
+          alreadyStored.push(score);
 
-        return true;
-      }
+          return true;
+        }
 
-      return false;
-    }).slice(0, 10);
+        return false;
+      }).slice(0, 10);
 
     return firstTen;
   }
@@ -23,11 +22,9 @@ export default (() => {
   function fetchPlayerScore(playerName, scoresObject) {
     // the input must be the player name and an object
     // similar to the one required by the previous function
-    const playerScore = scoresObject.result.filter(score => {
-      return score.user === playerName;
-    }).sort((a, b) => {
-      return b.score - a.score;
-    })[0];
+    const playerScore = scoresObject.result
+      .filter(score => score.user === playerName)
+      .sort((a, b) => b.score - a.score)[0];
 
     return playerScore;
   }
@@ -37,11 +34,11 @@ export default (() => {
     // playerScore: number
     return {
       body: JSON.stringify(
-        { "user": playerName, "score": playerScore }
+        { user: playerName, score: playerScore },
       ),
       method: 'POST',
       mode: 'cors',
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
     };
   }
 
@@ -55,6 +52,6 @@ export default (() => {
     fetchFirstTen,
     fetchPlayerScore,
     buildPostScoreParameters,
-    shouldPostPlayerScore
+    shouldPostPlayerScore,
   };
 })();

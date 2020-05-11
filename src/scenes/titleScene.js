@@ -1,4 +1,5 @@
-import { Button } from '../objects/button';
+import Phaser from 'phaser';
+import buildButton from '../objects/button';
 
 export default class TitleScene extends Phaser.Scene {
   constructor() {
@@ -6,8 +7,8 @@ export default class TitleScene extends Phaser.Scene {
   }
 
   create() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
+    const { width } = this.cameras.main;
+    const { height } = this.cameras.main;
 
     this.sound.stopByKey('footstep'); // weird footstep bug
     this.add.image(width / 2, height / 2, 'background');
@@ -15,7 +16,7 @@ export default class TitleScene extends Phaser.Scene {
     if (!this.sys.game.globals.backgroundMusic) {
       this.sys.game.globals.backgroundMusic = this.sound.add(
         'backgroundMusic',
-        { volume: 0.25, loop: true }
+        { volume: 0.25, loop: true },
       );
     }
 
@@ -24,38 +25,36 @@ export default class TitleScene extends Phaser.Scene {
       this.sys.game.globals.musicPlaying = true;
     } else if (this.sys.game.globals.musicPlaying) {
       if (!this.sys.game.globals.backgroundMusic.isPlaying) {
-        this.sys.game.globals.backgroundMusic.play()
+        this.sys.game.globals.backgroundMusic.play();
       }
     }
 
-    new Button(this,
+    buildButton(this,
       width / 2,
       height / 2 - 100,
       'Play',
-      'GameScene'
-    );
+      'GameScene');
 
-    new Button(this,
+    buildButton(this,
       width / 2,
       height / 2,
       'Options',
-      'OptionsScene'
-    );
+      'OptionsScene');
 
-    new Button(
+    buildButton(
       this,
       width / 2,
       height / 2 + 100,
       'Credits',
-      'CreditsScene'
+      'CreditsScene',
     );
 
-    const leaderBoardButton = new Button(
+    buildButton(
       this,
       width / 2,
       height / 2 + 200,
       'Leader board',
-      'LeaderBoardScene'
+      'LeaderBoardScene',
     );
   }
 }

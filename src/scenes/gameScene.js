@@ -1,6 +1,7 @@
+import Phaser from 'phaser';
 import ScoresFetcher from '../scoresFetcher';
-import { RestartButton } from '../objects/restartButton';
-import { Button } from '../objects/button';
+import RestartButton from '../objects/restartButton';
+import buildButton from '../objects/button';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -23,11 +24,11 @@ export default class GameScene extends Phaser.Scene {
 
     this.time.delayedCall(
       250,
-      function () {
+      () => {
         this.listenForPointer = true;
       },
       null,
-      this
+      this,
     );
   }
 
@@ -37,22 +38,22 @@ export default class GameScene extends Phaser.Scene {
   }
 
   updateJewels() {
-    this.jewels.children.iterate(function (jewel) {
+    this.jewels.children.iterate(jewel => {
       jewel.setFrame(this.sys.game.globals.jewelFrame);
       jewel.setVelocityX(this.sys.game.globals.gameSpeed * -1);
     }, this);
   }
 
   updatePlatforms() {
-    this.platforms.forEach(function (platform) {
-      platform.children.iterate(function (block) {
+    this.platforms.forEach(platform => {
+      platform.children.iterate(block => {
         block.setVelocityX(this.sys.game.globals.gameSpeed * -1);
       }, this);
     }, this);
   }
 
   updateObstacles() {
-    this.obstacles.children.iterate(function (obstacle) {
+    this.obstacles.children.iterate(obstacle => {
       obstacle.setVelocityX(this.sys.game.globals.gameSpeed * -1);
     }, this);
   }
@@ -60,7 +61,7 @@ export default class GameScene extends Phaser.Scene {
   setDifficulty() {
     this.difficultyTimerOne = this.time.delayedCall(
       60000,
-      function () {
+      () => {
         this.sys.game.globals.gameSpeed += 50;
         this.sys.game.globals.jewelChance += 10;
         this.sys.game.globals.obstacleChance += 20;
@@ -77,12 +78,12 @@ export default class GameScene extends Phaser.Scene {
         this.updateObstacles();
       },
       null,
-      this
+      this,
     );
 
     this.difficultyTimerTwo = this.time.delayedCall(
       120000,
-      function () {
+      () => {
         this.sys.game.globals.gameSpeed += 25;
         this.sys.game.globals.jewelChance += 20;
         this.sys.game.globals.obstacleChance += 40;
@@ -99,13 +100,13 @@ export default class GameScene extends Phaser.Scene {
         this.updateObstacles();
       },
       null,
-      this
+      this,
     );
   }
 
   incrementJumpsCount() {
-    const height = this.cameras.main.height;
-    const width = this.cameras.main.width;
+    const { height } = this.cameras.main;
+    const { width } = this.cameras.main;
 
     const jumpsIncreasedText = this.add.text(
       width / 2,
@@ -113,8 +114,8 @@ export default class GameScene extends Phaser.Scene {
       'JUMPS INCREASED BY 1!',
       {
         font: '20px monospace',
-        fill: '#000000'
-      }
+        fill: '#000000',
+      },
     );
 
     jumpsIncreasedText.setOrigin(0.5, 0.5);
@@ -124,18 +125,18 @@ export default class GameScene extends Phaser.Scene {
       targets: jumpsIncreasedText,
       y: jumpsIncreasedText.y - 80,
       duration: 3000,
-      onComplete: function () {
+      onComplete() {
         this.remove();
         jumpsIncreasedText.destroy();
-      }
+      },
     });
 
     this.sys.game.globals.playerJumps += 1;
   }
 
   incrementScoreRate() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
+    const { width } = this.cameras.main;
+    const { height } = this.cameras.main;
 
     const scoreRateIncreasedText = this.add.text(
       width / 2,
@@ -143,8 +144,8 @@ export default class GameScene extends Phaser.Scene {
       'POINTS PER SECOND DUPLICATED!',
       {
         font: '20px monospace',
-        fill: '#000000'
-      }
+        fill: '#000000',
+      },
     );
 
     scoreRateIncreasedText.setOrigin(0.5, 0.5);
@@ -154,22 +155,22 @@ export default class GameScene extends Phaser.Scene {
       targets: scoreRateIncreasedText,
       y: scoreRateIncreasedText.y - 80,
       duration: 3000,
-      onComplete: function () {
+      onComplete() {
         this.remove();
         scoreRateIncreasedText.destroy();
-      }
+      },
     });
 
     this.sys.game.globals.scoreRate *= 2;
   }
 
   setBackground() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
+    const { width } = this.cameras.main;
+    const { height } = this.cameras.main;
     const backgroundOne = this.add.image(width / 2, height / 2, 'background');
 
     const backgroundTwo = this.add.image(
-      width / 2 + 1024, height / 2, 'background'
+      width / 2 + 1024, height / 2, 'background',
     );
 
     this.physics.add.existing(backgroundOne);
@@ -178,13 +179,13 @@ export default class GameScene extends Phaser.Scene {
     this.backgroundsGroup.add(backgroundOne);
     this.backgroundsGroup.add(backgroundTwo);
 
-    this.backgroundsGroup.getChildren().forEach(function (background) {
+    this.backgroundsGroup.getChildren().forEach((background) => {
       background.body.setVelocityX(-40);
     });
   }
 
   setPlayer() {
-    const height = this.cameras.main.height;
+    const { height } = this.cameras.main;
 
     this.player = this.physics.add.sprite(200, height / 2 + 120, 'player');
     this.player.setFrame(0);
@@ -194,49 +195,47 @@ export default class GameScene extends Phaser.Scene {
     this.player.isJumping = false;
     this.playerScore = 0;
 
-    this.player.jumpsAvailable = function () {
-      return this.jumpsCount >= 1;
-    }
+    this.player.jumpsAvailable = () => this.jumpsCount >= 1;
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
     this.footstepSound = this.sound.add('footstep', {
       volume: 0.75,
       loop: true,
-      rate: 0.5
+      rate: 0.5,
     });
 
     this.jumpSound = this.sound.add('jump', {
       volume: 0.75,
-      loop: false
+      loop: false,
     });
 
     this.anims.create({
       key: 'run',
       frames: this.anims.generateFrameNumbers('player', { start: 2, end: 3 }),
       frameRate: 8,
-      repeat: -1
+      repeat: -1,
     });
 
-    this.platforms.forEach(function (platform) {
+    this.platforms.forEach(platform => {
       this.setPlatformCollider(platform);
     }, this);
 
     this.scoreIncrementTimer = this.time.addEvent({
       delay: 1000,
       loop: true,
-      callback: function () {
+      callback() {
         this.playerScore += this.sys.game.globals.scoreRate;
-        this.scoreText.setText('SCORE: ' + this.playerScore);
+        this.scoreText.setText(`SCORE: ${this.playerScore}`);
       },
-      callbackScope: this
+      callbackScope: this,
     });
   }
 
   setPlatformCollider(platform) {
-    platform.children.iterate(function (block) {
+    platform.children.iterate((block) => {
       this.physics.add.collider(this.player, block);
-    }.bind(this));
+    });
   }
 
   setObstacles() {
@@ -245,7 +244,7 @@ export default class GameScene extends Phaser.Scene {
 
     this.gameOverSound = this.sound.add('gameOver', {
       volume: 1,
-      loop: false
+      loop: false,
     });
   }
 
@@ -254,19 +253,19 @@ export default class GameScene extends Phaser.Scene {
       768 + Phaser.Math.Between(2, platformLength) * 64,
       height - 64,
       'objects',
-      70
+      70,
     );
 
     this.obstacles.add(obstacle);
 
     this.obstacles.getLast(true).setVelocityX(
-      this.sys.game.globals.gameSpeed * -1
+      this.sys.game.globals.gameSpeed * -1,
     );
 
     this.obstacles.getLast(true).setSize(30, 10);
 
     this.physics.add.overlap(
-      this.player, this.obstacles.getLast(true), this.gameOver, null, this
+      this.player, this.obstacles.getLast(true), this.gameOver, null, this,
     );
   }
 
@@ -298,7 +297,7 @@ export default class GameScene extends Phaser.Scene {
     ScoresFetcher.postPlayerScore(this.sys.game.playerName, this.playerScore);
   }
 
-  gameOver(player, obstacle) {
+  gameOver(player) {
     this.postScore();
     this.physics.world.pause();
     this.gameIsOver = true;
@@ -309,15 +308,15 @@ export default class GameScene extends Phaser.Scene {
     this.gameOverSound.play();
     player.setTint(0xff0000);
 
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
+    const { width } = this.cameras.main;
+    const { height } = this.cameras.main;
     const curtain = this.add.graphics();
 
     const gameOverText = this.add.text(
       width / 2,
       height / 2,
       'GAME OVER',
-      { font: '30px monospace', fill: '#ffffff' }
+      { font: '30px monospace', fill: '#ffffff' },
     );
 
     curtain.fillStyle(0x222222, 0.8);
@@ -330,17 +329,17 @@ export default class GameScene extends Phaser.Scene {
       this,
       width / 2,
       height / 2 + 100,
-      'Again?'
+      'Again?',
     );
 
     restart.setDepth(2);
 
-    const menu = new Button(
+    const menu = buildButton(
       this,
       width / 2,
       height / 2 + 200,
       'Menu',
-      'TitleScene'
+      'TitleScene',
     );
 
     menu.setDepth(2);
@@ -353,25 +352,25 @@ export default class GameScene extends Phaser.Scene {
 
     this.jewelSound = this.sound.add(
       'jewelGathering',
-      { volume: 1, loop: false }
+      { volume: 1, loop: false },
     );
   }
 
   buildJewel(positionX, positionY) {
     const jewel = this.physics.add.sprite(
-      positionX, positionY - 84, 'objects', this.sys.game.globals.jewelFrame
+      positionX, positionY - 84, 'objects', this.sys.game.globals.jewelFrame,
     );
 
     this.jewels.add(jewel);
 
     this.jewels.getLast(true).setVelocityX(
-      this.sys.game.globals.gameSpeed * -1
+      this.sys.game.globals.gameSpeed * -1,
     );
 
     this.jewels.getLast(true).setSize(40, 40);
 
     this.physics.add.overlap(
-      this.player, this.jewels.getLast(true), this.collectJewel, null, this
+      this.player, this.jewels.getLast(true), this.collectJewel, null, this,
     );
   }
 
@@ -379,11 +378,11 @@ export default class GameScene extends Phaser.Scene {
     const jewelScoreText = this.add.text(
       jewel.x,
       jewel.y,
-      '+' + this.sys.game.globals.jewelScore,
+      `+${this.sys.game.globals.jewelScore}`,
       {
         font: '14px monospace',
-        fill: '#000000'
-      }
+        fill: '#000000',
+      },
     );
 
     this.add.tween({
@@ -391,16 +390,16 @@ export default class GameScene extends Phaser.Scene {
       y: jewel.y - 50,
       duration: 1000,
       ease: 'Power1',
-      onComplete: function () {
+      onComplete() {
         this.remove();
         jewelScoreText.destroy();
-      }
+      },
     });
 
     this.jewelSound.play();
 
     this.playerScore += this.sys.game.globals.jewelScore;
-    this.scoreText.setText('SCORE: ' + this.playerScore);
+    this.scoreText.setText(`SCORE: ${this.playerScore}`);
     jewel.destroy();
   }
 
@@ -410,7 +409,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   setUI() {
-    const width = this.cameras.main.width;
+    const { width } = this.cameras.main;
     const boardContainer = this.add.container(width - 138, 42);
     const leftPart = this.add.image(-90, 0, 'ui', 249);
     const middlePartOne = this.add.image(-30, 0, 'ui', 250);
@@ -419,13 +418,13 @@ export default class GameScene extends Phaser.Scene {
     const assembly = [leftPart, middlePartOne, middlePartTwo, rightPart];
 
     this.scoreText = this.add.text(
-      0, 0, 'SCORE: ' + this.playerScore,
-      { font: '16px monospace', fill: '#000000' }
+      0, 0, `SCORE: ${this.playerScore}`,
+      { font: '16px monospace', fill: '#000000' },
     );
 
     this.scoreText.setOrigin(0.5, 0.5);
 
-    assembly.forEach(function (part) {
+    assembly.forEach((part) => {
       part.scale = 4;
     });
 
@@ -437,7 +436,7 @@ export default class GameScene extends Phaser.Scene {
   setPlatforms() {
     this.platforms = [];
 
-    const height = this.cameras.main.height;
+    const { height } = this.cameras.main;
     const firstPlatform = this.buildPlatform(32, height / 2 + 200, 10);
 
     this.platforms.push(firstPlatform);
@@ -471,7 +470,7 @@ export default class GameScene extends Phaser.Scene {
       if (this.getJewelChance()) {
         this.buildJewel(
           768 + Phaser.Math.Between(1, blocksCount) * 64,
-          positionY
+          positionY,
         );
       }
 
@@ -480,7 +479,7 @@ export default class GameScene extends Phaser.Scene {
       }
     }
 
-    platform.children.iterate(function (block) {
+    platform.children.iterate(block => {
       block.setVelocityX(this.sys.game.globals.gameSpeed * -1);
       block.setImmovable(true);
     }, this);
@@ -494,7 +493,7 @@ export default class GameScene extends Phaser.Scene {
         this.gameOver(this.player);
       }
 
-      this.backgroundsGroup.getChildren().forEach(function (background) {
+      this.backgroundsGroup.getChildren().forEach((background) => {
         if (background.x <= -512) {
           const firstBackground = this.backgroundsGroup.children.entries[0];
           const lastBackground = this.backgroundsGroup.children.entries[1];
@@ -505,23 +504,23 @@ export default class GameScene extends Phaser.Scene {
             background.x = firstBackground.x + 1024;
           }
         }
-      }.bind(this));
+      });
 
-      this.platforms.forEach(function (platform, index) {
+      this.platforms.forEach((platform, index) => {
         const blocks = platform.getChildren();
         const lastBlock = blocks[blocks.length - 1];
 
         if (lastBlock.x <= 32) {
           this.platformToUpdate = index;
         }
-      }.bind(this));
+      });
 
       if (this.platformToUpdate) {
         this.platforms = this.platforms.slice(
           0,
-          this.platformToUpdate
+          this.platformToUpdate,
         ).concat(
-          this.platforms.slice(this.platformToUpdate + 1)
+          this.platforms.slice(this.platformToUpdate + 1),
         );
 
         this.platformToUpdate = null;
@@ -531,7 +530,7 @@ export default class GameScene extends Phaser.Scene {
         this.newPlatform = this.buildPlatform(
           832,
           400 + Phaser.Math.Between(-50, 50),
-          Phaser.Math.Between(this.sys.game.globals.blocksAmount, 5)
+          Phaser.Math.Between(this.sys.game.globals.blocksAmount, 5),
         );
 
         this.platforms.push(this.newPlatform);
@@ -547,8 +546,8 @@ export default class GameScene extends Phaser.Scene {
       }
 
       if (
-        this.cursors.up.isDown ||
-        (this.listenForPointer && this.input.activePointer.isDown)
+        this.cursors.up.isDown
+        || (this.listenForPointer && this.input.activePointer.isDown)
       ) {
         if (this.player.jumpsAvailable() && !this.player.isJumping) {
           this.player.setVelocityY(this.sys.game.globals.playerJumpForce * -1);
@@ -556,9 +555,9 @@ export default class GameScene extends Phaser.Scene {
           this.player.isJumping = true;
           this.jumpSound.play();
 
-          this.time.delayedCall(500, function () {
+          this.time.delayedCall(500, () => {
             this.player.isJumping = false;
-          }.bind(this));
+          });
         }
 
         this.player.setFrame(1);
@@ -567,36 +566,34 @@ export default class GameScene extends Phaser.Scene {
         this.player.jumpsCount = this.sys.game.globals.playerJumps;
 
         if (!this.footstepSound.isPlaying) this.footstepSound.play();
-      } else {
-        if (this.footstepSound.isPlaying) this.footstepSound.stop();
-      }
+      } else if (this.footstepSound.isPlaying) this.footstepSound.stop();
 
-      this.obstacles.children.iterate(function (obstacle) {
+      this.obstacles.children.iterate(obstacle => {
         if (obstacle.x <= -32) {
           this.obstaclesToRemove.push(obstacle);
         }
       }, this);
 
-      this.obstaclesToRemove.forEach(function (obstacle) {
+      this.obstaclesToRemove.forEach(obstacle => {
         this.obstacles.remove(obstacle, true, true);
       }, this);
 
       this.obstaclesToRemove = [];
 
-      this.jewels.children.iterate(function (jewel) {
+      this.jewels.children.iterate((jewel) => {
         if (jewel.x <= -32) {
           this.jewelsToRemove.push(jewel);
         }
-      }.bind(this));
+      });
 
-      this.jewelsToRemove.forEach(function (jewel) {
+      this.jewelsToRemove.forEach(jewel => {
         this.jewels.remove(jewel, true, true);
       }, this);
 
       this.jewelsToRemove = [];
     } else {
       if (this.player.anims.isPlaying) {
-        this.player.anims.stop()
+        this.player.anims.stop();
       }
 
       this.player.setFrame(6);

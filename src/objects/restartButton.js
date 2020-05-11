@@ -1,4 +1,6 @@
-export class RestartButton extends Phaser.GameObjects.Container {
+import Phaser from 'phaser';
+
+export default class RestartButton extends Phaser.GameObjects.Container {
   constructor(scene, x, y, text) {
     super(scene);
     this.scene = scene;
@@ -10,29 +12,29 @@ export class RestartButton extends Phaser.GameObjects.Container {
     this.text = this.scene.make.text({
       x: 0,
       y: 0,
-      text: text,
+      text,
       style: {
         font: '28px monospace',
-        fill: '#222222'
-      }
+        fill: '#222222',
+      },
     });
 
     Phaser.Display.Align.In.Center(this.text, this.button);
     this.add(this.button);
     this.add(this.text);
 
-    this.button.on('pointerdown', function (pointer) {
+    this.button.on('pointerdown', () => {
       this.scene.scene.restart();
       this.scene.restartGame();
-    }.bind(this));
+    });
 
-    this.button.on('pointerover', function (pointer) {
+    this.button.on('pointerover', () => {
       this.button.setTexture('buttonPressed');
-    }.bind(this));
+    });
 
-    this.button.on('pointerout', function (pointer) {
+    this.button.on('pointerout', () => {
       this.button.setTexture('button');
-    }.bind(this));
+    });
 
     this.scene.add.existing(this);
   }

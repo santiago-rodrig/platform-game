@@ -1,11 +1,13 @@
+import Phaser from 'phaser';
+
 export default class CreditsScene extends Phaser.Scene {
   constructor() {
     super('CreditsScene');
   }
 
   create() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
+    const { width } = this.cameras.main;
+    const { height } = this.cameras.main;
 
     this.sceneTitle = this.make.text({
       x: 0,
@@ -13,8 +15,8 @@ export default class CreditsScene extends Phaser.Scene {
       text: 'Credits',
       style: {
         font: '28px monospace',
-        fill: '#ffffff'
-      }
+        fill: '#ffffff',
+      },
     });
 
     this.authorText = this.make.text({
@@ -23,25 +25,25 @@ export default class CreditsScene extends Phaser.Scene {
       text: 'Created by Santiago Rodríguez',
       style: {
         font: '25px monospace',
-        fill: '#ffffff'
-      }
+        fill: '#ffffff',
+      },
     });
 
     this.zone = this.add.zone(
       width / 2,
       height / 2,
       width,
-      height
+      height,
     );
 
     Phaser.Display.Align.In.Center(
       this.sceneTitle,
-      this.zone
+      this.zone,
     );
 
     Phaser.Display.Align.In.Center(
       this.authorText,
-      this.zone
+      this.zone,
     );
 
     this.authorText.setY(1000);
@@ -51,7 +53,7 @@ export default class CreditsScene extends Phaser.Scene {
       y: -100,
       ease: 'Power1',
       duration: 3000,
-      delay: 1000
+      delay: 1000,
     });
 
     this.authorTween = this.tweens.add({
@@ -60,9 +62,10 @@ export default class CreditsScene extends Phaser.Scene {
       ease: 'Power1',
       duration: 7000,
       delay: 1000,
-      onComplete: function () {
+      onComplete: () => {
         this.scene.start('TitleScene');
-      }.bind(this)
+      },
+      onCompleteScope: this,
     });
   }
 }

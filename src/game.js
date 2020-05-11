@@ -1,3 +1,4 @@
+import Phaser from 'phaser';
 import BootScene from './scenes/bootScene';
 import PreloaderScene from './scenes/preloaderScene';
 import TitleScene from './scenes/titleScene';
@@ -22,7 +23,7 @@ export default class Game extends Phaser.Game {
       jewelFrame: 36,
       jewelScore: 50,
       playerJumps: 2,
-      blocksAmount: 2
+      blocksAmount: 2,
     };
 
     this.playerName = playerName;

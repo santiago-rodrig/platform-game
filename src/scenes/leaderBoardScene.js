@@ -1,5 +1,6 @@
+import Phaser from 'phaser';
 import ScoresFetcher from '../scoresFetcher';
-import { Button } from '../objects/button';
+import buildButton from '../objects/button';
 
 export default class LeaderBoardScene extends Phaser.Scene {
   constructor() {
@@ -22,8 +23,8 @@ export default class LeaderBoardScene extends Phaser.Scene {
       'Loading',
       {
         font: '16px monospace',
-        fill: '#000000'
-      }
+        fill: '#000000',
+      },
     );
 
     loadingText.setOrigin(0.5, 0.5);
@@ -31,7 +32,7 @@ export default class LeaderBoardScene extends Phaser.Scene {
     const loadingTimer = this.time.addEvent({
       delay: 100,
       loop: true,
-      callback: function () {
+      callback() {
         if (loadingText.text.length < 10) {
           loadingText.text += '.';
         } else if (loadingText.text.length >= 10) {
@@ -39,64 +40,64 @@ export default class LeaderBoardScene extends Phaser.Scene {
         }
       },
       callbackScope: this,
-      args: [loadingText]
+      args: [loadingText],
     });
 
     return { loadingText, loadingTimer };
   }
 
   setTopScores() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
+    const { width } = this.cameras.main;
+    const { height } = this.cameras.main;
 
     const loadingObject = this.placeLoadingTextAnimation(
       width / 2 - 150,
-      height / 2 - 100
+      height / 2 - 100,
     );
 
-    ScoresFetcher.topScores().then(function (scores) {
+    ScoresFetcher.topScores().then((scores) => {
       loadingObject.loadingTimer.remove();
       loadingObject.loadingText.destroy();
       this.writeTopScores(scores);
-    }.bind(this));
+    });
   }
 
   setBestPlayerScore() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
+    const { width } = this.cameras.main;
+    const { height } = this.cameras.main;
 
     const loadingObject = this.placeLoadingTextAnimation(
       width / 2 + 150,
-      height / 2 - 100
+      height / 2 - 100,
     );
 
     ScoresFetcher.playerScore(this.sys.game.playerName).then(
-      function (playerScore) {
+      (playerScore) => {
         loadingObject.loadingTimer.remove();
         loadingObject.loadingText.destroy();
         this.writePlayerScore(playerScore);
-      }.bind(this)
+      },
     );
   }
 
   writePlayerScore(playerScore) {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
+    const { width } = this.cameras.main;
+    const { height } = this.cameras.main;
     const playerName = `(${this.sys.game.playerName})`;
 
     const spacePaddingLeft = ' '.repeat(
-      Math.ceil((15 - playerName.length) / 2)
+      Math.ceil((15 - playerName.length) / 2),
     );
 
     const spacePaddingRigt = ' '.repeat(
-      Math.floor((15 - playerName.length) / 2)
+      Math.floor((15 - playerName.length) / 2),
     );
 
     const playerScoreTitle = this.add.text(
       width / 2 + 140,
       height / 2 - 128,
-      "YOUR BEST SCORE\n" + spacePaddingLeft + playerName + spacePaddingRigt,
-      { font: '16px monospace', fill: '#000000' }
+      `YOUR BEST SCORE\n${spacePaddingLeft}${playerName}${spacePaddingRigt}`,
+      { font: '16px monospace', fill: '#000000' },
     );
 
     playerScoreTitle.setOrigin(0.5, 0.5);
@@ -106,11 +107,11 @@ export default class LeaderBoardScene extends Phaser.Scene {
         width / 2 + 140,
         height / 2 - 68,
         text,
-        { font: '14px monospace', fill: '#000000' }
+        { font: '14px monospace', fill: '#000000' },
       );
 
       playerScoreText.setOrigin(0.5, 0.5);
-    };
+    }
 
     if (!playerScore) {
       drawScoreText.call(this, 'NO SCORE SAVED');
@@ -120,8 +121,8 @@ export default class LeaderBoardScene extends Phaser.Scene {
   }
 
   writeTopScores(scores) {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
+    const { width } = this.cameras.main;
+    const { height } = this.cameras.main;
     const scoresPositionX = width / 2 - 150;
     const scoresPositionY = height / 2 - 138;
     const scoresTextOffset = 25;
@@ -132,40 +133,39 @@ export default class LeaderBoardScene extends Phaser.Scene {
       scoresPositionX,
       scoresPositionY,
       'TOP SCORES',
-      { font: '16px monospace', fill: '#000000' }
+      { font: '16px monospace', fill: '#000000' },
     );
 
     title.setOrigin(0.5, 0.5);
 
     function padWithSpaces(scoreObject) {
       return ' '.repeat(
-        19 - (scoreObject.user.length + scoreObject.score.toString().length)
+        19 - (scoreObject.user.length + scoreObject.score.toString().length),
       );
     }
 
     if (scores.length > 0) {
-      const firstScoreText = this.add.text(
+      this.add.text(
         scoresPositionX - 50,
         scoresPositionY + 30,
         `${scores[0].user}:${padWithSpaces(scores[0])}${scores[0].score}`,
-        { font: scoresFont, fill: scoresColor }
+        { font: scoresFont, fill: scoresColor },
       );
 
-      scores.slice(1).forEach(function (score, index) {
-        const scoreText = this.add.text(
+      scores.slice(1).forEach((score, index) => {
+        this.add.text(
           scoresPositionX - 50,
           scoresPositionY + 30 + (index + 1) * scoresTextOffset,
           `${score.user}:${padWithSpaces(score)}${score.score}`,
-          { font: scoresFont, fill: scoresColor }
+          { font: scoresFont, fill: scoresColor },
         );
-
       }, this);
     }
   }
 
   setBoard() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
+    const { width } = this.cameras.main;
+    const { height } = this.cameras.main;
     const blockScale = 8;
     const blockSideLength = 16;
     const blockScaledSideLength = blockScale * blockSideLength;
@@ -175,84 +175,84 @@ export default class LeaderBoardScene extends Phaser.Scene {
       width / 2 - blockScaledSideLength * 1.5 + 6,
       height / 2 - blockScaledSideLength + 4,
       blockScale,
-      246
+      246,
     );
     // top center left
     this.buildBoardBlock(
       width / 2 - blockScaledSideLength * 0.5 + 2,
       height / 2 - blockScaledSideLength + 4,
       blockScale,
-      247
+      247,
     );
     // top center right
     this.buildBoardBlock(
       width / 2 + blockScaledSideLength * 0.5 - 2,
       height / 2 - blockScaledSideLength + 4,
       blockScale,
-      247
+      247,
     );
     // top right corner
     this.buildBoardBlock(
       width / 2 + blockScaledSideLength * 1.5 - 6,
       height / 2 - blockScaledSideLength + 4,
       blockScale,
-      248
+      248,
     );
     // left center
     this.buildBoardBlock(
       width / 2 - blockScaledSideLength * 1.5 + 6,
       height / 2,
       blockScale,
-      276
+      276,
     );
     // center left
     this.buildBoardBlock(
       width / 2 - blockScaledSideLength * 0.5 + 2,
       height / 2,
       blockScale,
-      277
+      277,
     );
     // center right
     this.buildBoardBlock(
       width / 2 + blockScaledSideLength * 0.5 - 2,
       height / 2,
       blockScale,
-      277
+      277,
     );
     // right center
     this.buildBoardBlock(
       width / 2 + blockScaledSideLength * 1.5 - 6,
       height / 2,
       blockScale,
-      278
+      278,
     );
     // bottom left corner
     this.buildBoardBlock(
       width / 2 - blockScaledSideLength * 1.5 + 6,
       height / 2 + blockScaledSideLength - 4,
       blockScale,
-      306
+      306,
     );
     // bottom center left
     this.buildBoardBlock(
       width / 2 - blockScaledSideLength * 0.5 + 2,
       height / 2 + blockScaledSideLength - 4,
       blockScale,
-      307
+      307,
     );
     // bottom center right
     this.buildBoardBlock(
       width / 2 + blockScaledSideLength * 0.5 - 2,
       height / 2 + blockScaledSideLength - 4,
       blockScale,
-      307
+      307,
     );
     // bottom right corner
     this.buildBoardBlock(
       width / 2 + blockScaledSideLength * 1.5 - 6,
       height / 2 + blockScaledSideLength - 4,
       blockScale,
-      308
+      308,
     );
   }
 
@@ -262,27 +262,27 @@ export default class LeaderBoardScene extends Phaser.Scene {
   }
 
   setBackground() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
+    const { width } = this.cameras.main;
+    const { height } = this.cameras.main;
 
     this.add.image(width / 2, height / 2, 'background');
   }
 
   setTitle() {
-    const width = this.cameras.main.width;
+    const { width } = this.cameras.main;
 
     const sceneTitle = this.add.text(width / 2, 50, 'LEADERBOARD', {
       font: '30px monospace',
-      fill: '#000000'
+      fill: '#000000',
     });
 
     sceneTitle.setOrigin(0.5, 0.5);
   }
 
   setMenuButton() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
+    const { width } = this.cameras.main;
+    const { height } = this.cameras.main;
 
-    new Button(this, width / 2, height - 50, 'Menu', 'TitleScene');
+    buildButton(this, width / 2, height - 50, 'Menu', 'TitleScene');
   }
 }
