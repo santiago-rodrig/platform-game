@@ -44,7 +44,7 @@ cd platform-game
 npm install
 ```
 
-Now, in order to take a look you can use one the tasks provided called
+Now, in order to take a look you can use one of the tasks provided called
 **server**, type inside of your terminal `npm run server` and a local server
 will fire up, now visit [localhost:8080](http://localhost:8080) and watch
 the application running.
