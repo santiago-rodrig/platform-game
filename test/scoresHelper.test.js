@@ -199,6 +199,6 @@ describe('shouldPostPlayerScore', () => {
 
   it('returns a truthy value is score object is undefined', () => {
     const scorePost = ScoresHelper.shouldPostPlayerScore(undefined, 42);
-    expect(scorePost).toBeFalsy();
+    expect(scorePost).toBeTruthy();
   });
 });
